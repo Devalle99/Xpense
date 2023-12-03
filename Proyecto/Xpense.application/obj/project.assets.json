@@ -1,0 +1,113 @@
+{
+  "version": 3,
+  "targets": {
+    "net7.0": {
+      "Xpense.domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/Xpense.domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Xpense.domain.dll": {}
+        }
+      },
+      "Xpense.infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "Xpense.domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Xpense.infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Xpense.infrastructure.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Xpense.domain/1.0.0": {
+      "type": "project",
+      "path": "../Xpense.domain/Xpense.domain.csproj",
+      "msbuildProject": "../Xpense.domain/Xpense.domain.csproj"
+    },
+    "Xpense.infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../Xpense.infrastructure/Xpense.infrastructure.csproj",
+      "msbuildProject": "../Xpense.infrastructure/Xpense.infrastructure.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net7.0": [
+      "Xpense.domain >= 1.0.0",
+      "Xpense.infrastructure >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\David V\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.application\\Xpense.application.csproj",
+      "projectName": "Xpense.application",
+      "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.application\\Xpense.application.csproj",
+      "packagesPath": "C:\\Users\\David V\\.nuget\\packages\\",
+      "outputPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.application\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\David V\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net7.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "projectReferences": {
+            "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.domain\\Xpense.domain.csproj": {
+              "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.domain\\Xpense.domain.csproj"
+            },
+            "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.infrastructure\\Xpense.infrastructure.csproj": {
+              "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.infrastructure\\Xpense.infrastructure.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net7.0": {
+        "targetAlias": "net7.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
