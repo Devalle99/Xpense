@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.API\\Xpense.API.csproj": {}
+    "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.API\\Xpense.API.csproj": {}
   },
   "projects": {
-    "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.API\\Xpense.API.csproj": {
+    "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.API\\Xpense.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.API\\Xpense.API.csproj",
+        "projectUniqueName": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.API\\Xpense.API.csproj",
         "projectName": "Xpense.API",
-        "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.API\\Xpense.API.csproj",
+        "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.API\\Xpense.API.csproj",
         "packagesPath": "C:\\Users\\David V\\.nuget\\packages\\",
-        "outputPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.API\\obj\\",
+        "outputPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\David V\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,11 +28,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.application\\Xpense.application.csproj": {
-                "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.application\\Xpense.application.csproj"
+              "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.application\\Xpense.application.csproj": {
+                "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.application\\Xpense.application.csproj"
               },
-              "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.infrastructure\\Xpense.infrastructure.csproj": {
-                "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.infrastructure\\Xpense.infrastructure.csproj"
+              "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.infrastructure\\Xpense.infrastructure.csproj": {
+                "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.infrastructure\\Xpense.infrastructure.csproj"
               }
             }
           }
@@ -50,6 +50,12 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.12, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.14, )"
             },
             "Microsoft.Extensions.DependencyInjection": {
               "target": "Package",
@@ -83,14 +89,14 @@
         }
       }
     },
-    "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.application\\Xpense.application.csproj": {
+    "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.application\\Xpense.application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.application\\Xpense.application.csproj",
+        "projectUniqueName": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.application\\Xpense.application.csproj",
         "projectName": "Xpense.application",
-        "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.application\\Xpense.application.csproj",
+        "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.application\\Xpense.application.csproj",
         "packagesPath": "C:\\Users\\David V\\.nuget\\packages\\",
-        "outputPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.application\\obj\\",
+        "outputPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\David V\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -107,11 +113,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.domain\\Xpense.domain.csproj": {
-                "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.domain\\Xpense.domain.csproj"
+              "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.domain\\Xpense.domain.csproj": {
+                "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.domain\\Xpense.domain.csproj"
               },
-              "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.infrastructure\\Xpense.infrastructure.csproj": {
-                "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.infrastructure\\Xpense.infrastructure.csproj"
+              "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.infrastructure\\Xpense.infrastructure.csproj": {
+                "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.infrastructure\\Xpense.infrastructure.csproj"
               }
             }
           }
@@ -145,14 +151,14 @@
         }
       }
     },
-    "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.domain\\Xpense.domain.csproj": {
+    "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.domain\\Xpense.domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.domain\\Xpense.domain.csproj",
+        "projectUniqueName": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.domain\\Xpense.domain.csproj",
         "projectName": "Xpense.domain",
-        "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.domain\\Xpense.domain.csproj",
+        "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.domain\\Xpense.domain.csproj",
         "packagesPath": "C:\\Users\\David V\\.nuget\\packages\\",
-        "outputPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.domain\\obj\\",
+        "outputPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\David V\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -200,14 +206,14 @@
         }
       }
     },
-    "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.infrastructure\\Xpense.infrastructure.csproj": {
+    "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.infrastructure\\Xpense.infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.infrastructure\\Xpense.infrastructure.csproj",
+        "projectUniqueName": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.infrastructure\\Xpense.infrastructure.csproj",
         "projectName": "Xpense.infrastructure",
-        "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.infrastructure\\Xpense.infrastructure.csproj",
+        "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.infrastructure\\Xpense.infrastructure.csproj",
         "packagesPath": "C:\\Users\\David V\\.nuget\\packages\\",
-        "outputPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.infrastructure\\obj\\",
+        "outputPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\David V\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -224,8 +230,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.domain\\Xpense.domain.csproj": {
-                "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.domain\\Xpense.domain.csproj"
+              "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.domain\\Xpense.domain.csproj": {
+                "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.domain\\Xpense.domain.csproj"
               }
             }
           }
@@ -239,6 +245,36 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.14, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.14, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.14, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.14, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Microsoft.Extensions.DependencyInjection.Abstractions": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.domain\\Xpense.domain.csproj",
+      "projectUniqueName": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.domain\\Xpense.domain.csproj",
       "projectName": "Xpense.domain",
-      "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.domain\\Xpense.domain.csproj",
+      "projectPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.domain\\Xpense.domain.csproj",
       "packagesPath": "C:\\Users\\David V\\.nuget\\packages\\",
-      "outputPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense\\Proyecto\\Xpense.domain\\obj\\",
+      "outputPath": "D:\\Escritorio\\UISEK\\5. Web dev\\Xpense_UISEK\\Proyecto\\Xpense.domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\David V\\AppData\\Roaming\\NuGet\\NuGet.Config",
