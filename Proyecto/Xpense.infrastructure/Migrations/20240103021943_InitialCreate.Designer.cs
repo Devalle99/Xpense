@@ -12,8 +12,8 @@ using Xpense.infrastructure.Data;
 namespace Xpense.infrastructure.Migrations
 {
     [DbContext(typeof(XpenseContext))]
-    [Migration("20231204013137_InititalCreate")]
-    partial class InititalCreate
+    [Migration("20240103021943_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

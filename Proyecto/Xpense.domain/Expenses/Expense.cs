@@ -4,7 +4,7 @@ namespace Xpense.domain.Expenses
 {
     public class Expense : AuditEntity
     {
-        public required int Usuario { get; set; }
+        public int UsuarioId { get; set; }
         public string Concepto { get; set; }
         public decimal Monto { get; set; }
         public int CategoriaId { get; set; }
