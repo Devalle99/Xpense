@@ -22,56 +22,83 @@ namespace Xpense.API.Controllers
 
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Post([FromBody] CategoryCreateDto category)
+        public async Task<IActionResult> CreateAsync([FromBody] CategoryCreateDto category)
         {
-            List<CategoryCreateDto> categories = new List<CategoryCreateDto>();
-            categories.Add(category);
-
-            return StatusCode((int) HttpStatusCode.Created, categories);
+            try {
+                var categoryResult = await _categoryService.Create(category);
+                return StatusCode((int)HttpStatusCode.Created, categoryResult);
+            } catch (Exception e) {
+                _logger.LogError("CategoryController error: CreateAsync " + e.Message);
+                return BadRequest("Bad Request, contact administrator");
+            }
         }
-
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> Get([FromQuery] string categoryId)
-        {
-            var categories = await _categoryService.GetAll();
-
-            return new OkObjectResult(categories);
-        }
-
 
         [HttpPut("Update")]
-        public async Task<IActionResult> Update([FromBody] CategoryReadDto updatedCategory)
+        public async Task<IActionResult> Update([FromBody] CategoryReadDto category)
         {
-            List<CategoryReadDto> categories = new List<CategoryReadDto>();
-            categories.Add(updatedCategory);
-
-            return new OkObjectResult(categories);
+            try
+            {
+                var categoryResult = await _categoryService.Update(category);
+                return new OkObjectResult(categoryResult);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("CategoryController error: Update " + e.Message);
+                return BadRequest("Bad Request, contact administrator");
+            }
         }
 
 
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            List<CategoryReadDto> categories = new List<CategoryReadDto>();
-            categories.Add(new CategoryReadDto
+            try
             {
-                Id = 1,
-                Usuario = 27,
-                Nombre = "Educacion"
-            });
+                var result = await _categoryService.Delete(id);
 
-            var deletedCategory = categories.FirstOrDefault(x=>x.Id == id);
-
-            if (deletedCategory != null)
-            {
-                categories.Remove(deletedCategory);
-
-                // Devuelve un código de estado 204 No Content para indicar que se eliminó con éxito.
-                return await Task.FromResult<IActionResult>(new NoContentResult());
+                return new OkObjectResult(new { deleted = result });
             }
-            else
+            catch (Exception e)
             {
-                return await Task.FromResult<IActionResult>(new NotFoundResult());
+                _logger.LogError("CategoryController error: Delete " + e.Message);
+                return BadRequest("Bad Request, contact administrator");
+            }
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            try
+            {
+                var categories = await _categoryService.GetAll();
+
+                return new OkObjectResult(categories);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("CategoryController error: GetAll " + e.Message);
+                return BadRequest("Bad Request, contact administrator");
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
+        {
+            try
+            {
+                var category = await _categoryService.Get(id);
+
+                return new OkObjectResult(category);
+            }
+            catch (InvalidOperationException e)
+            {
+                _logger.LogInformation($"Category with id {id} not found " + e.Message);
+                return NotFound($"Category with id {id} not found");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("CategoryController error: GetById " + e.Message);
+                return BadRequest("Bad Request, contact administrator");
             }
         }
     }

@@ -24,56 +24,75 @@ namespace Xpense.API.Controllers
         [HttpPost("Create")]
         public async Task<IActionResult> Post([FromBody] ExpenseCreateDto expense)
         {
-            List<ExpenseCreateDto> expenses = new List<ExpenseCreateDto>();
-            expenses.Add(expense);
-
-            return StatusCode((int) HttpStatusCode.Created, expenses);
+            try
+            {
+                var createdExpense = await _expenseService.Create(expense);
+                return StatusCode((int)HttpStatusCode.Created, createdExpense);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> Get([FromQuery] string expenseId)
-        {
-            var expenses = await _expenseService.GetAll();
-
-            return new OkObjectResult(expenses);
-        }
-
 
         [HttpPut("Update")]
-        public async Task<IActionResult> Update([FromBody] ExpenseReadDto updatedExpense)
+        public async Task<IActionResult> Update([FromBody] ExpenseReadDto expense)
         {
-            List<ExpenseReadDto> expenses = new List<ExpenseReadDto>();
-            expenses.Add(updatedExpense);
+            try
+            {
+                var updatedExpense = await _expenseService.Update(expense);
+                return new OkObjectResult(updatedExpense);
+            }
+            catch (Exception ex)
+            {
 
-            return new OkObjectResult(expenses);
+                return BadRequest(ex.Message);
+            }
         }
 
 
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            List<ExpenseReadDto> expenses = new List<ExpenseReadDto>();
-            expenses.Add(new ExpenseReadDto
+            try
             {
-                Id = 1,
-                Concepto = "Pago de matrícula UISEK",
-                Monto = 1274.99M,
-                CategoriaId = 5,
-                Usuario = 27
-            });
-
-            var deletedExpense = expenses.FirstOrDefault(x=>x.Id == id);
-
-            if (deletedExpense != null)
-            {
-                expenses.Remove(deletedExpense);
-
-                // Devuelve un código de estado 204 No Content para indicar que se eliminó con éxito.
-                return await Task.FromResult<IActionResult>(new NoContentResult());
+                var result = await _expenseService.Delete(id);
+                return new OkObjectResult(new { deleted = result });
             }
-            else
+            catch (Exception ex)
             {
-                return await Task.FromResult<IActionResult>(new NotFoundResult());
+                _logger.LogError(ex.Message);
+                return BadRequest($"Could not delete expense with id = {id}");
+            }
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var expenses = await _expenseService.GetAll();
+
+                return new OkObjectResult(expenses);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            try
+            {
+                var expense = await _expenseService.Get(id);
+
+                return new OkObjectResult(expense);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }

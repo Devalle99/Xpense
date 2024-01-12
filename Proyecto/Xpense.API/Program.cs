@@ -2,10 +2,7 @@ using Xpense.application.Categories;
 using Xpense.application.Categories.Interfaces;
 using Xpense.application.Expenses;
 using Xpense.application.Expenses.Interfaces;
-using Xpense.infrastructure.Repositories.Categories;
-using Xpense.infrastructure.Repositories.Categories.Interfaces;
-using Xpense.infrastructure.Repositories.Expenses;
-using Xpense.infrastructure.Repositories.Expenses.Interfaces;
+using Xpense.infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,11 +13,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Add application layer
 builder.Services.AddTransient<IExpenseService, ExpenseService>();
-builder.Services.AddTransient<IExpenseRepository, ExpenseRepository>();
-
 builder.Services.AddTransient<ICategoryService, CategoryService>();
-builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+
+// Add infrastructure layer
+builder.Services.AddInfraestructure(builder.Configuration);
 
 var app = builder.Build();
 
