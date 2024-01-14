@@ -18,6 +18,9 @@ namespace Xpense.application.Expenses
             expenseEntity.Concepto = expense.Concepto;
             expenseEntity.Monto = expense.Monto;
             expenseEntity.CategoriaId = expense.CategoriaId;
+            expenseEntity.CreatedAt = DateTime.Now;
+            expenseEntity.CreatedBy = expense.CreatedBy;
+            expenseEntity.UpdatedAt = null;
 
             expenseEntity = await _expenseRepository.Create(expenseEntity);
 
@@ -25,6 +28,7 @@ namespace Xpense.application.Expenses
             {
                 Id = expenseEntity.Id,
                 Concepto = expenseEntity.Concepto
+
             };
             return await Task.FromResult(result);
         }
@@ -67,6 +71,7 @@ namespace Xpense.application.Expenses
             expenseEntity.Concepto = expense.Concepto;
             expenseEntity.Monto = expense.Monto;
             expenseEntity.CategoriaId = expense.CategoriaId;
+            expenseEntity.UpdatedAt = DateTime.Now;
             await _expenseRepository.Update(expenseEntity);
             return expense;
         }

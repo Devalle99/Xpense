@@ -7,5 +7,6 @@ namespace Xpense.application.Expenses.Models
         public string Concepto { get; set; }
         public decimal Monto { get; set; }
         public int CategoriaId { get; set; }
+        public DateTime? UpdatedAt { get; set;}
     }
 }
