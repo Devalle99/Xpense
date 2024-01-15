@@ -19,16 +19,17 @@ namespace Xpense.application.Expenses
             expenseEntity.Monto = expense.Monto;
             expenseEntity.CategoriaId = expense.CategoriaId;
             expenseEntity.CreatedAt = DateTime.Now;
-            expenseEntity.CreatedBy = expense.CreatedBy;
             expenseEntity.UpdatedAt = null;
+            expenseEntity.CreatedBy = expense.CreatedBy;
 
             expenseEntity = await _expenseRepository.Create(expenseEntity);
 
             ExpenseReadDto result = new ExpenseReadDto
             {
                 Id = expenseEntity.Id,
-                Concepto = expenseEntity.Concepto
-
+                Concepto = expenseEntity.Concepto,
+                Monto = expenseEntity.Monto,
+                CategoriaId = expenseEntity.CategoriaId
             };
             return await Task.FromResult(result);
         }
