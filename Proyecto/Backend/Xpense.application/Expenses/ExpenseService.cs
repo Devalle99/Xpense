@@ -17,10 +17,9 @@ namespace Xpense.application.Expenses
             Expense expenseEntity = new Expense();
             expenseEntity.Concepto = expense.Concepto;
             expenseEntity.Monto = expense.Monto;
-            expenseEntity.CategoriaId = expense.CategoriaId;
             expenseEntity.CreatedAt = DateTime.Now;
-            expenseEntity.UpdatedAt = null;
-            expenseEntity.CreatedBy = expense.CreatedBy;
+            expenseEntity.UpdatedAt = DateTime.Now;
+            expenseEntity.CreatedBy = "API Request";
 
             expenseEntity = await _expenseRepository.Create(expenseEntity);
 
@@ -28,8 +27,7 @@ namespace Xpense.application.Expenses
             {
                 Id = expenseEntity.Id,
                 Concepto = expenseEntity.Concepto,
-                Monto = expenseEntity.Monto,
-                CategoriaId = expenseEntity.CategoriaId
+                Monto = expenseEntity.Monto
             };
             return await Task.FromResult(result);
         }
@@ -47,8 +45,7 @@ namespace Xpense.application.Expenses
             {
                 Id = expenseEntity.Id,
                 Concepto = expenseEntity.Concepto,
-                Monto = expenseEntity.Monto,
-                CategoriaId = expenseEntity.CategoriaId
+                Monto = expenseEntity.Monto
             };
             return mappedExpense;
         }
@@ -60,8 +57,7 @@ namespace Xpense.application.Expenses
             {
                 Id = x.Id,
                 Concepto = x.Concepto,
-                Monto = x.Monto,
-                CategoriaId = x.CategoriaId
+                Monto = x.Monto
             }).ToList();
             return expensesList;
         }
@@ -71,7 +67,6 @@ namespace Xpense.application.Expenses
             var expenseEntity = await _expenseRepository.Get(expense.Id);
             expenseEntity.Concepto = expense.Concepto;
             expenseEntity.Monto = expense.Monto;
-            expenseEntity.CategoriaId = expense.CategoriaId;
             expenseEntity.UpdatedAt = DateTime.Now;
             await _expenseRepository.Update(expenseEntity);
             return expense;

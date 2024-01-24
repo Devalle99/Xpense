@@ -3,11 +3,13 @@ using System.Net;
 using Xpense.application.Categories.Models;
 using Xpense.application.Categories.Interfaces;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Xpense.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class CategoryController : ControllerBase
     {
         

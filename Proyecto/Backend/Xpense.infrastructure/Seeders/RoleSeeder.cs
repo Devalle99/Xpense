@@ -28,14 +28,8 @@ namespace Xpense.infraestructure.Seeders
                 new IdentityRole<Guid>
                 {
                     Id = Guid.Parse("21e56e0e-cf41-4602-a8ba-e38853c26954"),
-                    Name = "Editor",
-                    NormalizedName = "EDITOR",
-                },
-                new IdentityRole<Guid>
-                {
-                    Id = Guid.Parse("f8886107-ee3d-4156-9fbc-673aec657c72"),
-                    Name = "Viewer",
-                    NormalizedName = "VIEWER"
+                    Name = "User",
+                    NormalizedName = "USER",
                 }
             );
         }

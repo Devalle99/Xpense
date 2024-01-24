@@ -1,26 +1,29 @@
+using Xpense.application.Expenses.Interfaces;
+using Xpense.application.Expenses.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using Xpense.application.Expenses.Models;
-using Xpense.application.Expenses.Interfaces;
-using Microsoft.Extensions.Hosting;
 
 namespace Xpense.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class ExpenseController : ControllerBase
     {
-        
+
         private readonly ILogger<ExpenseController> _logger;
         private readonly IExpenseService _expenseService;
-
         public ExpenseController(ILogger<ExpenseController> logger, IExpenseService expenseService)
         {
             _logger = logger;
             _expenseService = expenseService;
         }
 
-
+        /// <summary>
+        /// www.test.com/api/expense/Create
+        /// </summary>
+        /// <returns></returns>
         [HttpPost("Create")]
         public async Task<IActionResult> Post([FromBody] ExpenseCreateDto expense)
         {
@@ -50,7 +53,6 @@ namespace Xpense.API.Controllers
             }
         }
 
-
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
@@ -62,8 +64,9 @@ namespace Xpense.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return BadRequest($"Could not delete expense with id = {id}");
+                return BadRequest($"Could not delete expense with {id}");
             }
+
         }
 
         [HttpGet("GetAll")]

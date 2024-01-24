@@ -1,8 +1,10 @@
 ﻿using Xpense.domain.Categories;
 using Xpense.domain.Expenses;
+using Xpense.infraestructure.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Xpense.infrastructure.Seeders;
 
 namespace Xpense.infrastructure.Data
 {
@@ -23,6 +25,10 @@ namespace Xpense.infrastructure.Data
             modelBuilder.Entity<Expense>()
                 .Property(e => e.Monto)
                 .HasColumnType("decimal(18, 2)"); // 18 es la precisión total y 2 es la escala (número de decimales)
+
+            modelBuilder.ApplyConfiguration(new UserSeeder());
+            modelBuilder.ApplyConfiguration(new RoleSeeder());
+            modelBuilder.ApplyConfiguration(new UserRoleSeeder());
         }
     }
 }
