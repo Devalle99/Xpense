@@ -272,7 +272,7 @@ namespace Xpense.infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Xpense.domain.Expenses.Expense", b =>
@@ -307,7 +307,7 @@ namespace Xpense.infrastructure.Migrations
 
                     b.HasIndex("CategoriaId");
 
-                    b.ToTable("Expenses");
+                    b.ToTable("Expenses", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

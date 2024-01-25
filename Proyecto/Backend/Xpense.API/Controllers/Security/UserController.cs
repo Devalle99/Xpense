@@ -250,6 +250,5 @@ namespace Xpense.API.Controllers.Security
                 });
             }
         }
-
     }
 }

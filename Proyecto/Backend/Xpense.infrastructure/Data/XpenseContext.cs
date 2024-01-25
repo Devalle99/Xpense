@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Xpense.infrastructure.Seeders;
+using System.Reflection.Metadata;
+using Microsoft.Extensions.Hosting;
 
 namespace Xpense.infrastructure.Data
 {
@@ -25,6 +27,12 @@ namespace Xpense.infrastructure.Data
             modelBuilder.Entity<Expense>()
                 .Property(e => e.Monto)
                 .HasColumnType("decimal(18, 2)"); // 18 es la precisión total y 2 es la escala (número de decimales)
+
+            //modelBuilder.Entity<Expense>()
+            //    .HasOne(e => e.Usuario)
+            //    .WithMany()
+            //    .HasForeignKey(e => e.UsuarioId)
+            //    .IsRequired();
 
             modelBuilder.ApplyConfiguration(new UserSeeder());
             modelBuilder.ApplyConfiguration(new RoleSeeder());

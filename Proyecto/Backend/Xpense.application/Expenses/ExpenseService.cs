@@ -17,6 +17,8 @@ namespace Xpense.application.Expenses
             Expense expenseEntity = new Expense();
             expenseEntity.Concepto = expense.Concepto;
             expenseEntity.Monto = expense.Monto;
+            expenseEntity.CategoriaId = expense.CategoriaId;
+            expenseEntity.UsuarioId = expense.UsuarioId;
             expenseEntity.CreatedAt = DateTime.Now;
             expenseEntity.UpdatedAt = DateTime.Now;
             expenseEntity.CreatedBy = "API Request";
@@ -27,7 +29,8 @@ namespace Xpense.application.Expenses
             {
                 Id = expenseEntity.Id,
                 Concepto = expenseEntity.Concepto,
-                Monto = expenseEntity.Monto
+                Monto = expenseEntity.Monto,
+                CategoriaId = expenseEntity.CategoriaId,
             };
             return await Task.FromResult(result);
         }
@@ -38,17 +41,21 @@ namespace Xpense.application.Expenses
             return result;
         }
 
-        public async Task<ExpenseReadDto> Get(int id)
+        public async Task<ExpenseReadDto> Get(int id, Guid userId)
         {
-            var expenseEntity = await _expenseRepository.Get(id);
+            var expenseEntity = await _expenseRepository.Get(id, userId);
+
             var mappedExpense = new ExpenseReadDto
             {
                 Id = expenseEntity.Id,
                 Concepto = expenseEntity.Concepto,
-                Monto = expenseEntity.Monto
+                Monto = expenseEntity.Monto,
+                CategoriaId = expenseEntity.CategoriaId
             };
+
             return mappedExpense;
         }
+
 
         public async Task<ICollection<ExpenseReadDto>> GetAll()
         {
@@ -57,16 +64,28 @@ namespace Xpense.application.Expenses
             {
                 Id = x.Id,
                 Concepto = x.Concepto,
-                Monto = x.Monto
+                Monto = x.Monto,
+                CategoriaId = x.CategoriaId
             }).ToList();
             return expensesList;
         }
 
-        public async Task<ExpenseReadDto> Update(ExpenseReadDto expense)
+        public async Task<ICollection<ExpenseReadDto>> GetAllForUser(string sort, string filter)
         {
-            var expenseEntity = await _expenseRepository.Get(expense.Id);
+            throw new NotImplementedException();
+        }
+
+        public async Task<ICollection<ExpenseReadDto>> GetTotalsForUser(string attribute)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ExpenseReadDto> Update(ExpenseReadDto expense, Guid userId)
+        {
+            var expenseEntity = await _expenseRepository.Get(expense.Id, userId);
             expenseEntity.Concepto = expense.Concepto;
             expenseEntity.Monto = expense.Monto;
+            expenseEntity.CategoriaId = expense.CategoriaId;
             expenseEntity.UpdatedAt = DateTime.Now;
             await _expenseRepository.Update(expenseEntity);
             return expense;

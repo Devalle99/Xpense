@@ -1,4 +1,5 @@
-﻿using Xpense.domain.Common;
+﻿using Microsoft.AspNetCore.Identity;
+using Xpense.domain.Common;
 using Xpense.domain.Expenses;
 
 namespace Xpense.domain.Categories
@@ -7,5 +8,7 @@ namespace Xpense.domain.Categories
     {
         public string Nombre { get; set; }
         public ICollection<Expense>? Expenses { get; set; }
+        public Guid UsuarioId { get; set; }
+        public IdentityUser Usuario { get; set; }
     }
 }

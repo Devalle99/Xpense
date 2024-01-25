@@ -29,8 +29,27 @@ namespace Xpense.infraestructure.Seeders
                     LockoutEnd = null,
                     LockoutEnabled = true,
                     AccessFailedCount = 0
+                },
+                
+                new IdentityUser<Guid>
+                {
+                    Id = Guid.Parse("398791a8-38c0-46d5-875c-aecbe3636ff6"),
+                    UserName = "user@example.com",
+                    NormalizedUserName = "USER@EXAMPLE.COM",
+                    Email = "user@example.com",
+                    NormalizedEmail = "USER@EXAMPLE.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = hasher.HashPassword(null, "testpassword"),
+                    SecurityStamp = "DDZNQOVKVZIRBGBSWSC5KCXECFWP474KDDZNQOVKVZIRBGBS",
+                    ConcurrencyStamp = "b876-e6f632b78547-8f544974-8cdb-4865-b876-e6f632b78547",
+                    PhoneNumber = null,
+                    PhoneNumberConfirmed = false,
+                    TwoFactorEnabled = false,
+                    LockoutEnd = null,
+                    LockoutEnabled = true,
+                    AccessFailedCount = 0
                 }
-                );
+            );
         }
 
     }

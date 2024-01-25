@@ -30,13 +30,15 @@ namespace Xpense.infrastructure.Repositories.Expenses
 
         public async Task<Expense> Get(int id, Guid UsuarioId)
         {
-            var expenseEntity = await _context.Expenses.FirstAsync(e => e.Id == id);
+            var expenseEntity = await _context.Expenses.FirstAsync(e => e.Id == id && e.UsuarioId == UsuarioId);
+
             return expenseEntity;
         }
 
-        public async Task<ICollection<Expense>> GetAll(decimal Monto)
+        public async Task<ICollection<Expense>> GetAll()
         {
-            var expenseEntities = await _context.Expenses.OrderBy(x => x.Monto).Where(x => x.Monto > Monto).ToListAsync();
+            //var expenseEntities = await _context.Expenses.OrderBy(x => x.Monto).Where(x => x.Monto > Monto).ToListAsync();
+            var expenseEntities = await _context.Expenses.OrderBy(x => x.Monto).ToListAsync();
             return expenseEntities;
         }
 

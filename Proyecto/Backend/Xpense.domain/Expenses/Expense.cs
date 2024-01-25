@@ -1,7 +1,6 @@
 ﻿using Xpense.domain.Common;
 using Xpense.domain.Categories;
-using System.Security.Principal;
-using Microsoft.IdentityFramework;
+using Microsoft.AspNetCore.Identity;
 
 namespace Xpense.domain.Expenses
 {

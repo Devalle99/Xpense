@@ -4,6 +4,7 @@
     {
         public string Concepto { get; set; }
         public decimal Monto { get; set; }
-        public int CategoryId { get; set; }
+        public int? CategoriaId { get; set; }
+        public Guid UsuarioId { get; set; }
     }
 }
