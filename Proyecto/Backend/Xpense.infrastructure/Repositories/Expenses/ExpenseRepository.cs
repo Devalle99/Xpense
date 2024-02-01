@@ -20,6 +20,13 @@ namespace Xpense.infrastructure.Repositories.Expenses
             return expense;
         }
 
+        public async Task<Expense> Update(Expense expense)
+        {
+            _context.Expenses.Update(expense);
+            await _context.SaveChangesAsync();
+            return expense;
+        }
+
         public async Task<bool> Delete(int id)
         {
             var expenseEntity = await _context.Expenses.FirstAsync(e => e.Id == id);
@@ -28,25 +35,29 @@ namespace Xpense.infrastructure.Repositories.Expenses
             return isDeleted;
         }
 
-        public async Task<Expense> Get(int id, Guid UsuarioId)
+        public async Task<Expense> Get(int id, Guid userId)
         {
-            var expenseEntity = await _context.Expenses.FirstAsync(e => e.Id == id && e.UsuarioId == UsuarioId);
+            var expenseEntity = await _context.Expenses.FirstAsync(e => e.Id == id && e.UsuarioId == userId);
 
             return expenseEntity;
         }
 
         public async Task<ICollection<Expense>> GetAll()
         {
-            //var expenseEntities = await _context.Expenses.OrderBy(x => x.Monto).Where(x => x.Monto > Monto).ToListAsync();
-            var expenseEntities = await _context.Expenses.OrderBy(x => x.Monto).ToListAsync();
+            var expenseEntities = await _context.Expenses.OrderByDescending(x => x.CreatedAt).ToListAsync();
             return expenseEntities;
         }
 
-        public async Task<Expense> Update(Expense expense)
+        public async Task<ICollection<Expense>> GetAllForUser(string sort, string filter, Guid userId)
         {
-            _context.Expenses.Update(expense);
-            await _context.SaveChangesAsync();
-            return expense;
+            var expenseEntities = await _context.Expenses.Where(x => x.UsuarioId == userId).OrderByDescending(x => x.CreatedAt).ToListAsync();
+            return expenseEntities;
+        }
+
+        public async Task<ICollection<Expense>> GetTotalsForUser(string attribute, Guid userId)
+        {
+            var expenseEntities = await _context.Expenses.OrderByDescending(x => x.CreatedAt).ToListAsync();
+            return expenseEntities;
         }
     }
 }

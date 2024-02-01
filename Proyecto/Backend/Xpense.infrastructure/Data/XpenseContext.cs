@@ -29,7 +29,7 @@ namespace Xpense.infrastructure.Data
                 .HasColumnType("decimal(18, 2)"); // 18 es la precisión total y 2 es la escala (número de decimales)
 
             //modelBuilder.Entity<Expense>()
-            //    .HasOne(e => e.Usuario)
+            //    .HasOne(e => e.UsuarioId)
             //    .WithMany()
             //    .HasForeignKey(e => e.UsuarioId)
             //    .IsRequired();

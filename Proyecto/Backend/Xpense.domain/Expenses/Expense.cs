@@ -11,6 +11,5 @@ namespace Xpense.domain.Expenses
         public int? CategoriaId { get; set; }
         public Category? Categoria { get; set; }
         public Guid UsuarioId { get; set; }
-        public IdentityUser Usuario { get; set; }
      }
 }

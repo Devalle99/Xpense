@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Xpense.infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Xpense.infrastructure.Data;
 namespace Xpense.infrastructure.Migrations
 {
     [DbContext(typeof(XpenseContext))]
-    partial class XpenseContextModelSnapshot : ModelSnapshot
+    [Migration("20240125222625_relationship_expense_to_user")]
+    partial class relationship_expense_to_user
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,6 +89,58 @@ namespace Xpense.infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser<System.Guid>", b =>
@@ -164,7 +219,7 @@ namespace Xpense.infrastructure.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEE2TlYqQ9mtyMH7TDHwakbyrcx6wuh2E2qyqELD5wLq20iao8dHpDg4xF4LirCecAw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDX6TRs8w+rDBUFIKpcuRCxcom3xrn+XAtkor+SUSyl0LxcJVKPk5XtxRJ0rIxeu8w==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "WSC5KCXECFWP474KDDZNQOVKVZIRBGBS",
                             TwoFactorEnabled = false,
@@ -180,7 +235,7 @@ namespace Xpense.infrastructure.Migrations
                             LockoutEnabled = true,
                             NormalizedEmail = "USER@EXAMPLE.COM",
                             NormalizedUserName = "USER@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEK0Qzub2NlWBWB2gUy3KxmRoCnyYbhy/QGEX5F9CHy1rFUswYw7HCZP+rutoW2j6rg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOjnxnQrmnk392nYuqFEcFgtwnkFc0JKc/X55XpOHwYokLQS5SIaPhjgn427+zCX0A==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "DDZNQOVKVZIRBGBSWSC5KCXECFWP474KDDZNQOVKVZIRBGBS",
                             TwoFactorEnabled = false,
@@ -291,10 +346,13 @@ namespace Xpense.infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UsuarioId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UsuarioId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Categories");
                 });
@@ -327,12 +385,15 @@ namespace Xpense.infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UsuarioId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UsuarioId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoriaId");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Expenses");
                 });
@@ -388,13 +449,32 @@ namespace Xpense.infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Xpense.domain.Categories.Category", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("Xpense.domain.Expenses.Expense", b =>
                 {
                     b.HasOne("Xpense.domain.Categories.Category", "Categoria")
                         .WithMany("Expenses")
                         .HasForeignKey("CategoriaId");
 
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Categoria");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Xpense.domain.Categories.Category", b =>

@@ -18,7 +18,7 @@ namespace Xpense.application.Expenses
             expenseEntity.Concepto = expense.Concepto;
             expenseEntity.Monto = expense.Monto;
             expenseEntity.CategoriaId = expense.CategoriaId;
-            expenseEntity.UsuarioId = expense.UsuarioId;
+            expenseEntity.UsuarioId = (Guid)expense.UsuarioId;
             expenseEntity.CreatedAt = DateTime.Now;
             expenseEntity.UpdatedAt = DateTime.Now;
             expenseEntity.CreatedBy = "API Request";
@@ -31,8 +31,21 @@ namespace Xpense.application.Expenses
                 Concepto = expenseEntity.Concepto,
                 Monto = expenseEntity.Monto,
                 CategoriaId = expenseEntity.CategoriaId,
+                CreatedAt = expenseEntity.CreatedAt,
+                UsuarioId = expenseEntity.UsuarioId
             };
             return await Task.FromResult(result);
+        }
+
+        public async Task<ExpenseReadDto> Update(ExpenseReadDto expense)
+        {
+            var expenseEntity = await _expenseRepository.Get(expense.Id, (Guid)expense.UsuarioId);
+            expenseEntity.Concepto = expense.Concepto;
+            expenseEntity.Monto = expense.Monto;
+            expenseEntity.CategoriaId = expense.CategoriaId;
+            expenseEntity.UpdatedAt = DateTime.Now;
+            await _expenseRepository.Update(expenseEntity);
+            return expense;
         }
 
         public async Task<bool> Delete(int id)
@@ -50,7 +63,9 @@ namespace Xpense.application.Expenses
                 Id = expenseEntity.Id,
                 Concepto = expenseEntity.Concepto,
                 Monto = expenseEntity.Monto,
-                CategoriaId = expenseEntity.CategoriaId
+                CategoriaId = expenseEntity.CategoriaId,
+                CreatedAt = expenseEntity.CreatedAt,
+                UsuarioId = expenseEntity.UsuarioId
             };
 
             return mappedExpense;
@@ -65,30 +80,45 @@ namespace Xpense.application.Expenses
                 Id = x.Id,
                 Concepto = x.Concepto,
                 Monto = x.Monto,
-                CategoriaId = x.CategoriaId
+                CategoriaId = x.CategoriaId,
+                CreatedAt = x.CreatedAt,
+                UsuarioId = x.UsuarioId
             }).ToList();
             return expensesList;
         }
 
-        public async Task<ICollection<ExpenseReadDto>> GetAllForUser(string sort, string filter)
+        public async Task<ICollection<ExpenseReadDto>> GetAllForUser(string sort, string filter, Guid userId)
         {
-            throw new NotImplementedException();
+            var expenses = await _expenseRepository.GetAllForUser(sort, filter, userId);
+
+            var expensesList = expenses.Select(x => new ExpenseReadDto
+            {
+                Id = x.Id,
+                Concepto = x.Concepto,
+                Monto = x.Monto,
+                CategoriaId = x.CategoriaId,
+                CreatedAt = x.CreatedAt,
+                UsuarioId = x.UsuarioId
+            }).ToList();
+            return expensesList;
         }
 
-        public async Task<ICollection<ExpenseReadDto>> GetTotalsForUser(string attribute)
-        {
-            throw new NotImplementedException();
-        }
 
-        public async Task<ExpenseReadDto> Update(ExpenseReadDto expense, Guid userId)
+        public async Task<ICollection<ExpenseReadDto>> GetTotalsForUser(string attribute, Guid userId)
         {
-            var expenseEntity = await _expenseRepository.Get(expense.Id, userId);
-            expenseEntity.Concepto = expense.Concepto;
-            expenseEntity.Monto = expense.Monto;
-            expenseEntity.CategoriaId = expense.CategoriaId;
-            expenseEntity.UpdatedAt = DateTime.Now;
-            await _expenseRepository.Update(expenseEntity);
-            return expense;
+            var expenses = await _expenseRepository.GetTotalsForUser(attribute, userId);
+
+            var expensesList = expenses.Select(x => new ExpenseReadDto
+            {
+                Id = x.Id,
+                Concepto = x.Concepto,
+                Monto = x.Monto,
+                CategoriaId = x.CategoriaId,
+                CreatedAt = x.CreatedAt,
+                UsuarioId = x.UsuarioId
+            }).ToList();
+
+            return expensesList;
         }
     }
 }

@@ -9,6 +9,5 @@ namespace Xpense.domain.Categories
         public string Nombre { get; set; }
         public ICollection<Expense>? Expenses { get; set; }
         public Guid UsuarioId { get; set; }
-        public IdentityUser Usuario { get; set; }
     }
 }

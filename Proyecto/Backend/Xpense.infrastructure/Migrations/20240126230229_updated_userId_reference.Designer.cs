@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Xpense.infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Xpense.infrastructure.Data;
 namespace Xpense.infrastructure.Migrations
 {
     [DbContext(typeof(XpenseContext))]
-    partial class XpenseContextModelSnapshot : ModelSnapshot
+    [Migration("20240126230229_updated_userId_reference")]
+    partial class updated_userId_reference
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

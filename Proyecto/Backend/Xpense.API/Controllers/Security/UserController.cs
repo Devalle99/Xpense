@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Xpense.application.Security;
 
 namespace Xpense.API.Controllers.Security
 {
@@ -17,13 +18,18 @@ namespace Xpense.API.Controllers.Security
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
+        private readonly IRoleService _roleService;
         private readonly IConfiguration _configuration;
 
-        public UserController(ILogger<UserController> logger, IUserService userService, IConfiguration configuration)
+        public UserController(ILogger<UserController> logger, 
+            IUserService userService,
+            IRoleService roleService,
+            IConfiguration configuration)
         {
             _logger = logger;
             _userService = userService;
             _configuration = configuration;
+            _roleService = roleService;
         }
 
         [Authorize(Roles = "ADMINISTRATOR")]
@@ -181,7 +187,6 @@ namespace Xpense.API.Controllers.Security
 
                 if (loggedUser is not null)
                 {
-                    var roles = "ADMINISTRATOR";
                     var issuer = _configuration.GetSection("Jwt").GetSection("Issuer").Value;
                     var audience = _configuration.GetSection("Jwt").GetSection("Audience").Value;
                     var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt").GetSection("Key").Value));
@@ -194,10 +199,10 @@ namespace Xpense.API.Controllers.Security
                     };
 
                     //loggedUser.Roles = roles;
-
+                    var roles = await _roleService.GetRolesByUserId(loggedUser.Id);
                     foreach (var role in roles)
                     {
-                        claims.Add(new Claim(ClaimTypes.Role, "ADMINISTRATOR"));
+                        claims.Add(new Claim(ClaimTypes.Role, role.NormalizedName));
                     }
 
                     var token = new JwtSecurityToken(
@@ -225,7 +230,7 @@ namespace Xpense.API.Controllers.Security
                         //AccessToken = stringToken,
                         User = loggedUser
                     };
-                    
+
                     return Ok(new
                     {
                         Code = "200",
@@ -240,7 +245,7 @@ namespace Xpense.API.Controllers.Security
             }
             catch (Exception ex)
             {
-                
+
                 return BadRequest(new
                 {
                     Code = "500",
