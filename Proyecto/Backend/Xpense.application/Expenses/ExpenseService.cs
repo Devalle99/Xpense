@@ -2,6 +2,8 @@
 using Xpense.application.Expenses.Models;
 using Xpense.domain.Expenses;
 using Xpense.infrastructure.Repositories.Expenses.Interfaces;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace Xpense.application.Expenses
 {
@@ -87,9 +89,9 @@ namespace Xpense.application.Expenses
             return expensesList;
         }
 
-        public async Task<ICollection<ExpenseReadDto>> GetAllForUser(string sort, string filter, Guid userId)
+        public async Task<ICollection<ExpenseReadDto>> GetAllForUser(Guid userId, string orderBy, int? categoryId, decimal? minAmount, DateTime? startDate, DateTime? endDate)
         {
-            var expenses = await _expenseRepository.GetAllForUser(sort, filter, userId);
+            var expenses = await _expenseRepository.GetAllForUser(userId, orderBy, categoryId, minAmount, startDate, endDate);
 
             var expensesList = expenses.Select(x => new ExpenseReadDto
             {
@@ -103,22 +105,22 @@ namespace Xpense.application.Expenses
             return expensesList;
         }
 
-
-        public async Task<ICollection<ExpenseReadDto>> GetTotalsForUser(string attribute, Guid userId)
+        public async Task<decimal> GetTotalsForUser(Guid userId, string attribute, int? categoryId, DateTime? month)
         {
-            var expenses = await _expenseRepository.GetTotalsForUser(attribute, userId);
+            decimal expenses = await _expenseRepository.GetTotalsForUser(userId, attribute, categoryId, month);
 
-            var expensesList = expenses.Select(x => new ExpenseReadDto
-            {
-                Id = x.Id,
-                Concepto = x.Concepto,
-                Monto = x.Monto,
-                CategoriaId = x.CategoriaId,
-                CreatedAt = x.CreatedAt,
-                UsuarioId = x.UsuarioId
-            }).ToList();
+            return expenses;
+        }
 
-            return expensesList;
+        public async Task<string> GetTotalsByCategory(Guid userId, DateTime startDate, DateTime endDate)
+        {
+            // Llamada al repositorio para obtener el diccionario
+            var totalAmountByCategory = await _expenseRepository.GetTotalsByCategory(userId, startDate, endDate);
+
+            // Serializar el diccionario a formato JSON
+            string jsonResult = JsonConvert.SerializeObject(totalAmountByCategory);
+
+            return jsonResult;
         }
     }
 }

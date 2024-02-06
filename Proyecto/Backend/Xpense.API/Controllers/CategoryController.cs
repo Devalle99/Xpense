@@ -4,6 +4,7 @@ using Xpense.application.Categories.Models;
 using Xpense.application.Categories.Interfaces;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authorization;
+using Xpense.domain.Expenses;
 
 namespace Xpense.API.Controllers
 {
@@ -26,10 +27,16 @@ namespace Xpense.API.Controllers
         [HttpPost("Create")]
         public async Task<IActionResult> CreateAsync([FromBody] CategoryCreateDto category)
         {
-            try {
+            try
+            {
+                var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid"))?.Value;
+                category.UsuarioId = Guid.Parse(userId!);
+
                 var categoryResult = await _categoryService.Create(category);
                 return StatusCode((int)HttpStatusCode.Created, categoryResult);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 _logger.LogError("CategoryController error: CreateAsync " + e.Message);
                 return BadRequest("Bad Request, contact administrator");
             }
@@ -40,6 +47,9 @@ namespace Xpense.API.Controllers
         {
             try
             {
+                var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid"))?.Value;
+                category.UsuarioId = Guid.Parse(userId!);
+
                 var categoryResult = await _categoryService.Update(category);
                 return new OkObjectResult(categoryResult);
             }
@@ -67,28 +77,14 @@ namespace Xpense.API.Controllers
             }
         }
 
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAllAsync()
-        {
-            try
-            {
-                var categories = await _categoryService.GetAll();
-
-                return new OkObjectResult(categories);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError("CategoryController error: GetAll " + e.Message);
-                return BadRequest("Bad Request, contact administrator");
-            }
-        }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
         {
             try
             {
-                var category = await _categoryService.Get(id);
+                var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid"))?.Value;
+
+                var category = await _categoryService.Get(Guid.Parse(userId!), id);
 
                 return new OkObjectResult(category);
             }
@@ -100,6 +96,24 @@ namespace Xpense.API.Controllers
             catch (Exception e)
             {
                 _logger.LogError("CategoryController error: GetById " + e.Message);
+                return BadRequest("Bad Request, contact administrator");
+            }
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            try
+            {
+                var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid"))?.Value;
+
+                var categories = await _categoryService.GetAll(Guid.Parse(userId!));
+
+                return new OkObjectResult(categories);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("CategoryController error: GetAll " + e.Message);
                 return BadRequest("Bad Request, contact administrator");
             }
         }

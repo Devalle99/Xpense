@@ -1,6 +1,7 @@
 ﻿using Xpense.application.Categories.Interfaces;
 using Xpense.application.Categories.Models;
 using Xpense.domain.Categories;
+using Xpense.domain.Expenses;
 using Xpense.infrastructure.Repositories.Categories.Interfaces;
 
 namespace Xpense.application.Categories
@@ -16,13 +17,15 @@ namespace Xpense.application.Categories
         {
             var entity = new Category
             {
-                Nombre = category.Nombre
+                Nombre = category.Nombre,
+                UsuarioId = (Guid)category.UsuarioId
             };
             entity = await _categoriesRepository.Create(entity);
             var mappedEntity = new CategoryReadDto
             {
                 Id = entity.Id,
-                Nombre = entity.Nombre
+                Nombre = entity.Nombre,
+                UsuarioId = entity.UsuarioId
             };
             return mappedEntity;
         }
@@ -33,30 +36,32 @@ namespace Xpense.application.Categories
             return result;
         }
 
-        public async Task<CategoryReadDto> Get(int id)
+        public async Task<CategoryReadDto> Get(Guid userId, int id)
         {
-            var entity = await _categoriesRepository.Get(id);
+            var entity = await _categoriesRepository.Get(userId, id);
             var mappedEntity = new CategoryReadDto
             {
                 Id = entity.Id,
-                Nombre = entity.Nombre
+                Nombre = entity.Nombre,
+                UsuarioId= entity.UsuarioId
             };
             return mappedEntity;
         }
 
-        public async Task<ICollection<CategoryReadDto>> GetAll()
+        public async Task<ICollection<CategoryReadDto>> GetAll(Guid userId)
         {
-            var entities = await _categoriesRepository.GetAll();
+            var entities = await _categoriesRepository.GetAll(userId);
             return entities.Select(x => new CategoryReadDto
             {
                 Id = x.Id,
-                Nombre = x.Nombre
+                Nombre = x.Nombre,
+                UsuarioId = x.UsuarioId
             }).ToList();
         }
 
         public async Task<CategoryReadDto> Update(CategoryReadDto category)
         {
-            var entityToUpdate = await _categoriesRepository.Get(category.Id);
+            var entityToUpdate = await _categoriesRepository.Get((Guid)category.UsuarioId, category.Id);
 
 
             entityToUpdate.Id = category.Id;
@@ -66,7 +71,8 @@ namespace Xpense.application.Categories
             var mappedEntity = new CategoryReadDto
             {
                 Id = entityToUpdate.Id,
-                Nombre = entityToUpdate.Nombre
+                Nombre = entityToUpdate.Nombre,
+                UsuarioId = entityToUpdate.UsuarioId
             };
             return mappedEntity;
         }

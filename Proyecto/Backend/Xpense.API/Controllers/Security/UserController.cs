@@ -61,7 +61,7 @@ namespace Xpense.API.Controllers.Security
             }
         }
 
-        [Authorize(Roles = "ADMINISTRATOR")]
+        [AllowAnonymous]
         [HttpPost()]
         public async Task<IActionResult> Create(UserAddDto user)
         {
@@ -208,7 +208,7 @@ namespace Xpense.API.Controllers.Security
                     var token = new JwtSecurityToken(
                         issuer: issuer,
                         audience: audience,
-                        expires: DateTime.Now.AddMinutes(10),
+                        expires: DateTime.Now.AddDays(30),
                         claims: claims,
                         signingCredentials: credentials
                     );
@@ -218,7 +218,7 @@ namespace Xpense.API.Controllers.Security
                     HttpContext.Response.Cookies.Append("token", stringToken,
                     new CookieOptions
                     {
-                        Expires = DateTime.Now.AddDays(7),
+                        Expires = DateTime.Now.AddDays(30),
                         HttpOnly = true,
                         Secure = true,
                         IsEssential = true,

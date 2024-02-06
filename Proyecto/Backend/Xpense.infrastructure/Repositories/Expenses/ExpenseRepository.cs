@@ -48,16 +48,122 @@ namespace Xpense.infrastructure.Repositories.Expenses
             return expenseEntities;
         }
 
-        public async Task<ICollection<Expense>> GetAllForUser(string sort, string filter, Guid userId)
+        public async Task<ICollection<Expense>> GetAllForUser(Guid userId, string orderBy, int? categoryId, decimal? minAmount, DateTime? startDate, DateTime? endDate)
         {
-            var expenseEntities = await _context.Expenses.Where(x => x.UsuarioId == userId).OrderByDescending(x => x.CreatedAt).ToListAsync();
-            return expenseEntities;
+            IQueryable<Expense> query = _context.Expenses
+                .Where(e => e.UsuarioId == userId);
+
+            // Aplicar filtros
+            if (categoryId.HasValue)
+            {
+                query = query.Where(e => e.Categoria != null && e.Categoria.Id == categoryId);
+            }
+
+            if (minAmount.HasValue)
+            {
+                query = query.Where(e => e.Monto >= minAmount.Value);
+            }
+
+            if (startDate.HasValue)
+            {
+                query = query.Where(e => e.CreatedAt >= startDate.Value);
+            }
+
+            if (endDate.HasValue)
+            {
+                query = query.Where(e => e.CreatedAt <= endDate.Value);
+            }
+
+            switch (orderBy)
+            {
+                case "conceptoAsc":
+                    query = query.OrderBy(e => e.Concepto);
+                    break;
+                case "conceptoDesc":
+                    query = query.OrderByDescending(e => e.Concepto);
+                    break;
+                case "montoAsc":
+                    query = query.OrderBy(e => e.Monto);
+                    break;
+                case "montoDesc":
+                    query = query.OrderByDescending(e => e.Monto);
+                    break;
+                case "categoriaAsc":
+                    query = query.OrderBy(e => e.Categoria != null ? e.Categoria.Nombre : "Sin categoría");
+                    break;
+                case "categoriaDesc":
+                    query = query.OrderByDescending(e => e.Categoria != null ? e.Categoria.Nombre : "Sin categoría");
+                    break;
+                case "fechaAsc":
+                    query = query.OrderBy(e => e.CreatedAt);
+                    break;
+                case "fechaDesc":
+                    query = query.OrderByDescending(e => e.CreatedAt);
+                    break;
+                default:
+                    query = query.OrderBy(e => e.CreatedAt);
+                    break;
+            }
+
+            return await query.ToListAsync();
         }
 
-        public async Task<ICollection<Expense>> GetTotalsForUser(string attribute, Guid userId)
+        public async Task<decimal> GetTotalsForUser(Guid userId, string attribute, int? categoryId, DateTime? month)
         {
-            var expenseEntities = await _context.Expenses.OrderByDescending(x => x.CreatedAt).ToListAsync();
-            return expenseEntities;
+            IQueryable<Expense> query = _context.Expenses
+                .Where(e => e.UsuarioId == userId);
+
+            // Aplicar filtros adicionales según el atributo
+            switch (attribute)
+            {
+                case "general":
+                    // No se requieren filtros adicionales para el total general
+                    break;
+                case "categoria":
+                    if (categoryId.HasValue)
+                    {
+                        query = query.Where(e => e.Categoria != null && e.Categoria.Id == categoryId.Value);
+                    }
+                    break;
+                case "mes":
+                    if (month.HasValue)
+                    {
+                        int year = month.Value.Year;
+                        int monthNumber = month.Value.Month;
+                        query = query.Where(e => e.CreatedAt.Year == year && e.CreatedAt.Month == monthNumber);
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            // Calcular la suma del miembro Monto
+            decimal totalAmount = await query.SumAsync(e => e.Monto);
+
+            return totalAmount;
+        }
+
+        public async Task<Dictionary<string, decimal>> GetTotalsByCategory(Guid userId, DateTime startDate, DateTime endDate)
+        {
+            Dictionary<string, decimal> result = new Dictionary<string, decimal>();
+
+            var query = _context.Expenses
+                .Where(e => e.UsuarioId == userId && e.CreatedAt >= startDate && e.CreatedAt <= endDate)
+                .GroupBy(e => e.Categoria != null ? e.Categoria.Nombre : "Sin categoría")
+                .Select(group => new
+                {
+                    CategoryName = group.Key,
+                    TotalAmount = group.Sum(e => e.Monto)
+                });
+
+            var groupedResults = await query.ToListAsync();
+
+            foreach (var item in groupedResults)
+            {
+                result.Add(item.CategoryName, item.TotalAmount);
+            }
+
+            return result;
         }
     }
 }

@@ -113,13 +113,18 @@ namespace Xpense.API.Controllers
         }
         
         [HttpGet("GetAllForUser")]
-        public async Task<IActionResult> GetAllForUser([FromBody] string sort = "alfabetico", string filter = "ninguno")
+        public async Task<IActionResult> GetAllForUser (
+            [FromQuery] string orderBy = "fechaDesc",
+            [FromQuery] int? categoryId = null,
+            [FromQuery] decimal? minAmount = null,
+            [FromQuery] DateTime? startDate = null,
+            [FromQuery] DateTime? endDate = null)
         {
             try
             {
                 var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid"))?.Value;
 
-                var expenses = await _expenseService.GetAllForUser(sort, filter, Guid.Parse(userId!));
+                var expenses = await _expenseService.GetAllForUser(Guid.Parse(userId!), orderBy, categoryId, minAmount, startDate, endDate);
 
                 return new OkObjectResult(expenses);
             }
@@ -130,18 +135,40 @@ namespace Xpense.API.Controllers
         }        
         
         [HttpGet("GetTotalsForUser")]
-        public async Task<IActionResult> GetTotalsForUser([FromBody] string attribute = "general")
+        public async Task<IActionResult> GetTotalsForUser(
+            [FromQuery] string attribute = "general",
+            [FromQuery] int? categoryId = null,
+            [FromQuery] DateTime? month = null)
         {
             try
             {
                 var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid"))?.Value;
 
-                var expenses = await _expenseService.GetTotalsForUser(attribute, Guid.Parse(userId!));
+                decimal expenses = await _expenseService.GetTotalsForUser(Guid.Parse(userId!), attribute, categoryId, month);
 
                 return new OkObjectResult(expenses);
             }
             catch (Exception ex)
             {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("GetTotalsByCategory")]
+        public async Task<IActionResult> GetTotalsByCategory(DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid"))?.Value;
+
+                var jsonResult = await _expenseService.GetTotalsByCategory(Guid.Parse(userId!), startDate, endDate);
+
+                // Devolver la cadena JSON como resultado
+                return Ok(jsonResult);
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción y devolver una respuesta de error
                 return BadRequest(ex.Message);
             }
         }
