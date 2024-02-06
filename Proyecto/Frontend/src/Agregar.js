@@ -35,7 +35,7 @@ class Agregar extends Component {
     handleSubmit(e) {
         e.preventDefault();
         const { motivo, monto, fecha } = this.state;
-        
+
         if (!motivo || monto <= 0 || !fecha) {
             alert("Por favor, complete todos los campos correctamente.");
             return;
@@ -70,8 +70,8 @@ class Agregar extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <div className="row">
                         <div className="form-group col-md-4">
-                            <select 
-                                className="form-control" 
+                            <select
+                                className="form-control"
                                 value={this.state.motivo}
                                 onChange={this.handleMotivoChange}
                             >
@@ -80,25 +80,25 @@ class Agregar extends Component {
                                     <option key={index} value={motivo}>{motivo}</option>
                                 ))}
                             </select>
-                            <input 
-                                type="text" 
-                                className="form-control mt-2" 
+                            <input
+                                type="text"
+                                className="form-control mt-2"
                                 placeholder="Nuevo motivo"
                                 value={this.state.nuevoMotivo}
                                 onChange={(e) => this.setState({ nuevoMotivo: e.target.value })}
                             />
-                            <button 
-                                type="button" 
-                                className="btn btn-secondary mt-2" 
+                            <button
+                                type="button"
+                                className="btn btn-secondary mt-2"
                                 onClick={this.agregarNuevoMotivo}
                             >
                                 Agregar Motivo
                             </button>
                         </div>
                         <div className="form-group col-md-4">
-                            <input 
-                                type="number" 
-                                className="form-control" 
+                            <input
+                                type="number"
+                                className="form-control"
                                 placeholder="Monto"
                                 value={this.state.monto}
                                 onChange={this.handleMontoChange}
@@ -106,8 +106,8 @@ class Agregar extends Component {
                             />
                         </div>
                         <div className="form-group col-md-4">
-                            <input 
-                                type="date" 
+                            <input
+                                type="date"
                                 className="form-control"
                                 value={this.state.fecha}
                                 onChange={this.handleFechaChange}
