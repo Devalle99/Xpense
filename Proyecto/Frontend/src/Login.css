@@ -1,0 +1,61 @@
+/* Actualización de estilos para la página de login */
+.d-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #ffffff; /* Fondo claro para un inicio */
+  background-image: linear-gradient(135deg, #6e8efb, #a777e3); /* Gradiente de ejemplo */
+}
+
+.bg-white {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más marcada para contraste */
+  width: 30%; /* Ajusta según la necesidad, 30% para dar más espacio */
+  max-width: 500px; /* Ajusta para controlar el ancho máximo */
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.form-control {
+  border: 1px solid #ced4da;
+  border-radius: .25rem; /* Bordes redondeados para los inputs */
+}
+
+.form-control:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+.btn-success {
+  background-color: #28a745;
+  border: none;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+.btn-default {
+  background-color: #f8f9fa;
+  color: #333;
+  border: none; /* Elimina el borde para un botón más limpio */
+  margin-top: 15px; /* Más espacio entre botones */
+}
+
+.text-danger {
+  color: #dc3545;
+}
+
+@media (max-width: 768px) {
+  .bg-white {
+    width: 90%; /* Más ancho en pantallas pequeñas */
+    padding: 20px;
+  }
+}

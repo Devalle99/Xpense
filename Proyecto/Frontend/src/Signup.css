@@ -1,0 +1,74 @@
+/* Estilos generales para la página de registro */
+.d-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #007bff; /* Color primario, ajustable según tu esquema de colores */
+  height: 100vh;
+}
+
+.bg-primary {
+  background-color: #007bff !important; /* Asegura que el fondo sea del color primario */
+}
+
+.bg-white {
+  background-color: #ffffff !important;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  width: 25%; /* Ajustable según necesidades */
+  max-width: 400px; /* Evita que sea demasiado ancho en pantallas grandes */
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.form-control {
+  border-radius: 0 !important; /* Para inputs cuadrados, elimina si prefieres bordes redondeados */
+  border: 1px solid #ced4da;
+}
+
+.form-control:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+.btn-default {
+  background-color: #f8f9fa;
+  color: #333;
+  margin-top: 10px; /* Espacio entre botones */
+}
+
+.btn-default:hover {
+  background-color: #e2e6ea;
+}
+
+.text-danger {
+  color: #dc3545; /* Para mensajes de error */
+}
+
+.rounded-0 {
+  border-radius: 0 !important; /* Mantén esto si prefieres los bordes cuadrados */
+}
+
+/* Ajustes de responsividad */
+@media (max-width: 768px) {
+  .bg-white {
+    width: 90%;
+    padding: 15px;
+  }
+}

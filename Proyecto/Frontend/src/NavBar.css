@@ -1,0 +1,36 @@
+/* Estilos generales para la barra de navegación */
+nav {
+  background-color: #007bff; /* Color principal */
+  padding: 10px 0;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1); /* Sombra para dar profundidad */
+}
+
+/* Estilos para los botones dentro de la barra de navegación */
+nav button {
+  background-color: #ffffff; /* Fondo blanco para los botones */
+  color: #007bff; /* Color de texto que coincide con el fondo de la barra de navegación */
+  border: 1px solid #007bff; /* Borde que coincide con el color principal */
+  border-radius: 20px; /* Bordes redondeados para los botones */
+  padding: 10px 20px; /* Espaciado interno para hacer los botones más grandes y fáciles de clickear */
+  font-size: 16px; /* Tamaño de fuente para mejorar la legibilidad */
+  cursor: pointer; /* Cursor de mano al pasar sobre los botones */
+  margin: 0 10px; /* Espacio entre los botones */
+  transition: background-color 0.3s, color 0.3s; /* Transición suave para el hover */
+}
+
+/* Cambio de estilos al pasar el cursor sobre los botones */
+nav button:hover {
+  background-color: #0056b3; /* Color de fondo más oscuro al hacer hover */
+  color: #ffffff; /* Color de texto blanco al hacer hover */
+  border-color: #0056b3; /* Borde que coincide con el color de fondo al hacer hover */
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  nav button {
+    padding: 8px 15px; /* Ajuste del padding para pantallas más pequeñas */
+    font-size: 14px; /* Tamaño de fuente más pequeño para adaptarse a pantallas más pequeñas */
+    margin: 5px 5px; /* Menor espacio entre botones para evitar el desbordamiento */
+  }
+}
