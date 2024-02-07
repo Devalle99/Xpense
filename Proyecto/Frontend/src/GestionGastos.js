@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import Agregar from "./Agregar";
 import Graficos from "./Graficos";
 import Historial from './Historial';
@@ -6,139 +6,135 @@ import NavBar from './NavBar';
 import ModalEditarGasto from './ModalEditarGasto'; // Asegúrate de crear este componente
 import "./GestionGastos.css";
 
-class GestionGastos extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            historial: [],
-            presupuestoTotal: 0,
-            totalGastado: 0,
-            saldoRestante: 0,
-            nuevoPresupuesto: '',
-            gastoEnEdicion: null, // Estado para manejar el gasto actualmente en edición
-        };
+const GestionGastos = () => {
+    const [historial, setHistorial] = useState([]);
+    const [presupuestoTotal, setPresupuestoTotal] = useState(0);
+    const [totalGastado, setTotalGastado] = useState(0);
+    const [saldoRestante, setSaldoRestante] = useState(0);
+    const [nuevoPresupuesto, setNuevoPresupuesto] = useState('');
+    const [gastoEnEdicion, setGastoEnEdicion] = useState(null);
 
-        this.manejarPresupuestoInput = this.manejarPresupuestoInput.bind(this);
-        this.actualizarPresupuesto = this.actualizarPresupuesto.bind(this);
-        this.manejarGastos = this.manejarGastos.bind(this);
-        this.modificarGasto = this.modificarGasto.bind(this);
-        this.eliminarGasto = this.eliminarGasto.bind(this);
-        this.iniciarEdicionGasto = this.iniciarEdicionGasto.bind(this);
-        this.guardarCambiosGasto = this.guardarCambiosGasto.bind(this);
-        this.cancelarEdicionGasto = this.cancelarEdicionGasto.bind(this);
-    }
+    const manejarPresupuestoInput = (event) => {
+        setNuevoPresupuesto(event.target.value);
+    };
 
-    manejarPresupuestoInput(event) {
-        this.setState({ nuevoPresupuesto: event.target.value });
-    }
-
-    actualizarPresupuesto() {
-        const nuevoPresupuesto = Number(this.state.nuevoPresupuesto);
-        if (nuevoPresupuesto >= 0) {
-            this.setState({
-                presupuestoTotal: nuevoPresupuesto,
-                saldoRestante: nuevoPresupuesto - this.state.totalGastado,
-                nuevoPresupuesto: ''
-            });
+    const actualizarPresupuesto = () => {
+        const nuevoPresupuestoNum = Number(nuevoPresupuesto);
+        if (nuevoPresupuestoNum >= 0) {
+            setPresupuestoTotal(nuevoPresupuestoNum);
+            setSaldoRestante(nuevoPresupuestoNum - totalGastado);
+            setNuevoPresupuesto('');
         } else {
             alert("Por favor, ingrese un valor válido para el presupuesto.");
         }
-    }
+    };
 
-    manejarGastos(nuevoGasto) {
-        this.setState(prevState => {
-            const totalGastadoActualizado = prevState.totalGastado + Number(nuevoGasto.monto);
-            return {
-                historial: [...prevState.historial, nuevoGasto],
-                totalGastado: totalGastadoActualizado,
-                saldoRestante: prevState.presupuestoTotal - totalGastadoActualizado
-            };
+    const manejarGastos = (nuevoGasto) => {
+        setHistorial((prevHistorial) => {
+            const totalGastadoActualizado = totalGastado + Number(nuevoGasto.monto);
+            setTotalGastado(totalGastadoActualizado);
+            setSaldoRestante(presupuestoTotal - totalGastadoActualizado);
+            return [...prevHistorial, nuevoGasto];
         });
-    }
+    };
 
-    modificarGasto(index, gastoModificado) {
-        this.setState(prevState => {
-            const historialActualizado = [...prevState.historial];
-            historialActualizado[index] = {...gastoModificado, index}; // Asegúrate de incluir cualquier otro campo necesario
+    const modificarGasto = (index, gastoModificado) => {
+        setHistorial((prevHistorial) => {
+            // Copia el historial existente para no modificar el estado directamente
+            const historialActualizado = [...prevHistorial];
+    
+            // Reemplaza el gasto en la posición 'index' con el gastoModificado
+            historialActualizado[index] = { ...gastoModificado, index };
+    
+            // Calcula el total gastado sumando los montos de todos los gastos en el historialActualizado
             const totalGastadoActualizado = historialActualizado.reduce((acc, gasto) => acc + Number(gasto.monto), 0);
-            return {
-                historial: historialActualizado,
-                totalGastado: totalGastadoActualizado,
-                saldoRestante: prevState.presupuestoTotal - totalGastadoActualizado,
-            };
+    
+            // Actualiza el estado totalGastado con el nuevo total calculado
+            setTotalGastado(totalGastadoActualizado);
+    
+            // Actualiza el saldoRestante restando el totalGastadoActualizado del presupuestoTotal
+            setSaldoRestante(presupuestoTotal - totalGastadoActualizado);
+    
+            // Devuelve el historial actualizado, que se establecerá como el nuevo estado
+            return historialActualizado;
         });
-    }
+    };    
 
-    eliminarGasto(index) {
-        this.setState(prevState => {
-            const historialActualizado = prevState.historial.filter((_, i) => i !== index);
+    const eliminarGasto = (index) => {
+        setHistorial((prevHistorial) => {
+            // Filtra el historialActualizado excluyendo el gasto en la posición 'index'
+            const historialActualizado = prevHistorial.filter((_, i) => i !== index);
+    
+            // Calcula el total gastado sumando los montos de todos los gastos en el historialActualizado
             const totalGastadoActualizado = historialActualizado.reduce((acc, gasto) => acc + Number(gasto.monto), 0);
-            return {
-                historial: historialActualizado,
-                totalGastado: totalGastadoActualizado,
-                saldoRestante: prevState.presupuestoTotal - totalGastadoActualizado
-            };
+    
+            // Actualiza el estado totalGastado con el nuevo total calculado
+            setTotalGastado(totalGastadoActualizado);
+    
+            // Actualiza el saldoRestante restando el totalGastadoActualizado del presupuestoTotal
+            setSaldoRestante(presupuestoTotal - totalGastadoActualizado);
+    
+            // Devuelve el historial actualizado, que se establecerá como el nuevo estado
+            return historialActualizado;
         });
-    }
+    };
+    
 
-    iniciarEdicionGasto(index) {
-        const gastoAEditar = this.state.historial[index];
-        this.setState({ gastoEnEdicion: { ...gastoAEditar, index } });
-    }
+    const iniciarEdicionGasto = (index) => {
+        const gastoAEditar = historial[index];
+        setGastoEnEdicion({ ...gastoAEditar, index });
+    };
 
-    guardarCambiosGasto(index, gastoModificado) {
-        this.modificarGasto(index, gastoModificado);
-        this.setState({ gastoEnEdicion: null });
-    }
+    const guardarCambiosGasto = (index, gastoModificado) => {
+        modificarGasto(index, gastoModificado);
+        setGastoEnEdicion(null);
+    };
 
-    cancelarEdicionGasto() {
-        this.setState({ gastoEnEdicion: null });
-    }
+    const cancelarEdicionGasto = () => {
+        setGastoEnEdicion(null);
+    };
 
-    render() {
-        return (
-            <div className='app container'>
-                <NavBar />
-                <div className="jumbotron">
-                    <p className='lead text-center'>Gestor de Gastos</p>
-                    <div className="form-group">
-                        <input
-                            type="number"
-                            className="form-control"
-                            placeholder="Ingrese nuevo presupuesto"
-                            value={this.state.nuevoPresupuesto}
-                            onChange={this.manejarPresupuestoInput}
-                        />
-                        <button onClick={this.actualizarPresupuesto} className="btn btn-primary mt-2">
-                            Actualizar Presupuesto
-                        </button>
-                    </div>
-                    <Agregar
-                        agregarGasto={this.manejarGastos}
-                        presupuestoTotal={this.state.presupuestoTotal}
+    return (
+        <div className='app container'>
+            <NavBar />
+            <div className="jumbotron">
+                <p className='lead text-center'>Gestor de Gastos</p>
+                <div className="form-group">
+                    <input
+                        type="number"
+                        className="form-control"
+                        placeholder="Ingrese nuevo presupuesto"
+                        value={nuevoPresupuesto}
+                        onChange={manejarPresupuestoInput}
                     />
-                    <Historial
-                        historial={this.state.historial}
-                        presupuestoTotal={this.state.presupuestoTotal}
-                        iniciarEdicionGasto={this.iniciarEdicionGasto}
-                        eliminarGasto={this.eliminarGasto}
-                    />
-                    <Graficos
-                        historial={this.state.historial}
-                        presupuestoTotal={this.state.presupuestoTotal}
-                    />
-                    {this.state.gastoEnEdicion && (
-                        <ModalEditarGasto
-                            gasto={this.state.gastoEnEdicion}
-                            guardarCambiosGasto={this.guardarCambiosGasto}
-                            cancelarEdicionGasto={this.cancelarEdicionGasto}
-                        />
-                    )}
+                    <button onClick={actualizarPresupuesto} className="btn btn-primary mt-2">
+                        Actualizar Presupuesto
+                    </button>
                 </div>
+                <Agregar
+                    agregarGasto={manejarGastos}
+                    presupuestoTotal={presupuestoTotal}
+                />
+                <Historial
+                    historial={historial}
+                    presupuestoTotal={presupuestoTotal}
+                    iniciarEdicionGasto={iniciarEdicionGasto}
+                    eliminarGasto={eliminarGasto}
+                />
+                <Graficos
+                    historial={historial}
+                    presupuestoTotal={presupuestoTotal}
+                />
+                {gastoEnEdicion && (
+                    <ModalEditarGasto
+                        gasto={gastoEnEdicion}
+                        guardarCambiosGasto={guardarCambiosGasto}
+                        cancelarEdicionGasto={cancelarEdicionGasto}
+                    />
+                )}
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
 
 export default GestionGastos;
-

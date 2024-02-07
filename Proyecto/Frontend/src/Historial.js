@@ -40,8 +40,8 @@ function Historial({ historial, presupuestoTotal, iniciarEdicionGasto, eliminarG
                         <th scope="col">
                             Monto
                             <button className="btn btn-sm d-block mb-2 text-white bg-secondary" onClick={() => setMostrarFiltroMontos(!mostrarFiltroMontos)}>
-    				Filtrar Monto
-				</button>
+                                Filtrar Monto
+                            </button>
 
 
                             {mostrarFiltroMontos && (
@@ -54,8 +54,8 @@ function Historial({ historial, presupuestoTotal, iniciarEdicionGasto, eliminarG
                         <th scope="col">
                             Fecha
                             <button className="btn btn-sm d-block mb-2 text-white bg-secondary" onClick={() => setMostrarFiltroFechas(!mostrarFiltroFechas)}>
-    				Filtrar Fecha
-				</button>
+                                Filtrar Fecha
+                            </button>
 
 
                             {mostrarFiltroFechas && (
