@@ -1,40 +1,27 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import "./Agregar.css";
 
-class Agregar extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            motivo: '',
-            monto: '',
-            fecha: '',
-            nuevoMotivo: '', // Para capturar el valor del nuevo motivo
-            motivosDisponibles: ["carro", "casa", "comida", "mascota", "otros"] // Lista inicial de motivos
-        };
+const Agregar = ({ agregarGasto }) => {
+    const [motivo, setMotivo] = useState('');
+    const [monto, setMonto] = useState('');
+    const [fecha, setFecha] = useState('');
+    const [nuevoMotivo, setNuevoMotivo] = useState('');
+    const [motivosDisponibles, setMotivosDisponibles] = useState(["carro", "casa", "comida", "mascota", "otros"]);
 
-        // Vincular métodos
-        this.handleMotivoChange = this.handleMotivoChange.bind(this);
-        this.handleMontoChange = this.handleMontoChange.bind(this);
-        this.handleFechaChange = this.handleFechaChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.agregarNuevoMotivo = this.agregarNuevoMotivo.bind(this); // Vincular el nuevo método
-    }
+    const handleMotivoChange = (e) => {
+        setMotivo(e.target.value);
+    };
 
-    handleMotivoChange(e) {
-        this.setState({ motivo: e.target.value });
-    }
+    const handleMontoChange = (e) => {
+        setMonto(e.target.value);
+    };
 
-    handleMontoChange(e) {
-        this.setState({ monto: e.target.value });
-    }
+    const handleFechaChange = (e) => {
+        setFecha(e.target.value);
+    };
 
-    handleFechaChange(e) {
-        this.setState({ fecha: e.target.value });
-    }
-
-    handleSubmit(e) {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        const { motivo, monto, fecha } = this.state;
 
         if (!motivo || monto <= 0 || !fecha) {
             alert("Por favor, complete todos los campos correctamente.");
@@ -42,86 +29,78 @@ class Agregar extends Component {
         }
 
         const nuevoGasto = { motivo, monto: Number(monto), fecha };
-        this.props.agregarGasto(nuevoGasto);
+        agregarGasto(nuevoGasto);
 
-        this.setState({
-            motivo: '',
-            monto: '',
-            fecha: ''
-        });
-    }
+        setMotivo('');
+        setMonto('');
+        setFecha('');
+    };
 
-    agregarNuevoMotivo() {
-        const { nuevoMotivo, motivosDisponibles } = this.state;
+    const agregarNuevoMotivo = () => {
         if (nuevoMotivo && !motivosDisponibles.includes(nuevoMotivo.toLowerCase())) {
-            this.setState({
-                motivosDisponibles: [...motivosDisponibles, nuevoMotivo.toLowerCase()],
-                motivo: nuevoMotivo.toLowerCase(),
-                nuevoMotivo: ''
-            });
+            setMotivosDisponibles([...motivosDisponibles, nuevoMotivo.toLowerCase()]);
+            setMotivo(nuevoMotivo.toLowerCase());
+            setNuevoMotivo('');
         } else {
             alert("El motivo ya existe o está vacío.");
         }
-    }
+    };
 
-    render() {
-        return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <div className="row">
-                        <div className="form-group col-md-4">
-                            <select
-                                className="form-control"
-                                value={this.state.motivo}
-                                onChange={this.handleMotivoChange}
-                            >
-                                <option value="">Seleccione un motivo</option>
-                                {this.state.motivosDisponibles.map((motivo, index) => (
-                                    <option key={index} value={motivo}>{motivo}</option>
-                                ))}
-                            </select>
-                            <input
-                                type="text"
-                                className="form-control mt-2"
-                                placeholder="Nuevo motivo"
-                                value={this.state.nuevoMotivo}
-                                onChange={(e) => this.setState({ nuevoMotivo: e.target.value })}
-                            />
-                            <button
-                                type="button"
-                                className="btn btn-secondary mt-2"
-                                onClick={this.agregarNuevoMotivo}
-                            >
-                                Agregar Motivo
-                            </button>
-                        </div>
-                        <div className="form-group col-md-4">
-                            <input
-                                type="number"
-                                className="form-control"
-                                placeholder="Monto"
-                                value={this.state.monto}
-                                onChange={this.handleMontoChange}
-                                min="0"
-                            />
-                        </div>
-                        <div className="form-group col-md-4">
-                            <input
-                                type="date"
-                                className="form-control"
-                                value={this.state.fecha}
-                                onChange={this.handleFechaChange}
-                            />
-                        </div>
+    return (
+        <div>
+            <form onSubmit={handleSubmit}>
+                <div className="row">
+                    <div className="form-group col-md-4">
+                        <select
+                            className="form-control"
+                            value={motivo}
+                            onChange={handleMotivoChange}
+                        >
+                            <option value="">Seleccione un motivo</option>
+                            {motivosDisponibles.map((motivoItem, index) => (
+                                <option key={index} value={motivoItem}>{motivoItem}</option>
+                            ))}
+                        </select>
+                        <input
+                            type="text"
+                            className="form-control mt-2"
+                            placeholder="Nuevo motivo"
+                            value={nuevoMotivo}
+                            onChange={(e) => setNuevoMotivo(e.target.value)}
+                        />
+                        <button
+                            type="button"
+                            className="btn btn-secondary mt-2"
+                            onClick={agregarNuevoMotivo}
+                        >
+                            Agregar Motivo
+                        </button>
                     </div>
-                    <div className="boton-centrado">
-                        <button type="submit" className="btn btn-primary">Guardar Gasto</button>
+                    <div className="form-group col-md-4">
+                        <input
+                            type="number"
+                            className="form-control"
+                            placeholder="Monto"
+                            value={monto}
+                            onChange={handleMontoChange}
+                            min="0"
+                        />
                     </div>
-                </form>
-            </div>
-        );
-    }
-}
+                    <div className="form-group col-md-4">
+                        <input
+                            type="date"
+                            className="form-control"
+                            value={fecha}
+                            onChange={handleFechaChange}
+                        />
+                    </div>
+                </div>
+                <div className="boton-centrado">
+                    <button type="submit" className="btn btn-primary">Guardar Gasto</button>
+                </div>
+            </form>
+        </div>
+    );
+};
 
 export default Agregar;
-
