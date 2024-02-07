@@ -1,19 +1,31 @@
 import React from 'react';
-import Login from './Login';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Signup from './Signup';
-import GestionGastos from './GestionGastos';
+import {
+  BrowserRouter as Router,
+  createBrowserRouter,
+  Route,
+  RouterProvider,
+  Routes
+} from 'react-router-dom';
+import Login from './Seguridad/Login';
+import Signup from './Seguridad/Signup';
+import GestionGastos from './Gasto/GestionGastos';
+import PrivateRoutes from './Seguridad/PrivateRoutes'
+import PublicRoutes from './Seguridad/PublicRoutes'
 import './App.css'; // Importa el archivo CSS aquí
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
-        <Route path='/' element={<Login />}></Route>
-        <Route path='/signup' element={<Signup />}></Route>
-        <Route path='/gestiongastos' element={<GestionGastos />}></Route>
+        <Route element={<PrivateRoutes />}>
+          <Route path='/inicio' element={<GestionGastos />}></Route>
+        </Route>
+        <Route element={<PublicRoutes />}>
+          <Route element={<Login />} path='/' />
+          <Route path='/registro' element={<Signup />}></Route>
+        </Route>
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 

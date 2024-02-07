@@ -48,6 +48,7 @@ const Agregar = ({ agregarGasto }) => {
 
     return (
         <div>
+            <h3>Agregar Gastos</h3>
             <form onSubmit={handleSubmit}>
                 <div className="row">
                     <div className="form-group col-md-4">

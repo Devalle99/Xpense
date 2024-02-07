@@ -5,7 +5,7 @@
   align-items: center;
   height: 100vh;
   background-color: #ffffff; /* Fondo claro para un inicio */
-  background-image: linear-gradient(135deg, #6e8efb, #a777e3); /* Gradiente de ejemplo */
+  background-image: linear-gradient(135deg, #6e8efb, #b88eeb); /* Gradiente de ejemplo */
 }
 
 .bg-white {
