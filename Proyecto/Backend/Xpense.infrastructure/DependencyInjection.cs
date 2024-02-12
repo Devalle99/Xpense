@@ -16,7 +16,7 @@ namespace Xpense.infrastructure
     {
         public static IServiceCollection AddInfraestructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<XpenseContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<XpenseContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), providerOptions => providerOptions.EnableRetryOnFailure()));
 
             services.AddIdentityCore<IdentityUser<Guid>>()
                 .AddRoles<IdentityRole<Guid>>()

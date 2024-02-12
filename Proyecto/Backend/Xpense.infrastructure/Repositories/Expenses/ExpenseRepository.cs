@@ -51,6 +51,7 @@ namespace Xpense.infrastructure.Repositories.Expenses
         public async Task<ICollection<Expense>> GetAllForUser(Guid userId, string orderBy, int? categoryId, decimal? minAmount, DateTime? startDate, DateTime? endDate)
         {
             IQueryable<Expense> query = _context.Expenses
+                .Include(e => e.Categoria)
                 .Where(e => e.UsuarioId == userId);
 
             // Aplicar filtros
@@ -108,7 +109,7 @@ namespace Xpense.infrastructure.Repositories.Expenses
             return await query.ToListAsync();
         }
 
-        public async Task<decimal> GetTotalsForUser(Guid userId, string attribute, int? categoryId, DateTime? month)
+        public async Task<string> GetTotalsForUser(Guid userId, string attribute, int? categoryId, DateTime? month)
         {
             IQueryable<Expense> query = _context.Expenses
                 .Where(e => e.UsuarioId == userId);
@@ -138,7 +139,7 @@ namespace Xpense.infrastructure.Repositories.Expenses
             }
 
             // Calcular la suma del miembro Monto
-            decimal totalAmount = await query.SumAsync(e => e.Monto);
+            string totalAmount = (await query.SumAsync(e => e.Monto)).ToString("0.00");
 
             return totalAmount;
         }

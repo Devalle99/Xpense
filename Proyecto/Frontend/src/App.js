@@ -11,7 +11,6 @@ import Signup from './Seguridad/Signup';
 import GestionGastos from './Gasto/GestionGastos';
 import PrivateRoutes from './Seguridad/PrivateRoutes'
 import PublicRoutes from './Seguridad/PublicRoutes'
-import './App.css'; // Importa el archivo CSS aquí
 
 function App() {
   return (

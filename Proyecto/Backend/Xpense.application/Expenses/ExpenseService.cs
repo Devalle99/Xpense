@@ -89,27 +89,27 @@ namespace Xpense.application.Expenses
             return expensesList;
         }
 
-        public async Task<ICollection<ExpenseReadDto>> GetAllForUser(Guid userId, string orderBy, int? categoryId, decimal? minAmount, DateTime? startDate, DateTime? endDate)
+        public async Task<ICollection<ExpenseGetAllDto>> GetAllForUser(Guid userId, string orderBy, int? categoryId, decimal? minAmount, DateTime? startDate, DateTime? endDate)
         {
             var expenses = await _expenseRepository.GetAllForUser(userId, orderBy, categoryId, minAmount, startDate, endDate);
 
-            var expensesList = expenses.Select(x => new ExpenseReadDto
+            var expensesList = expenses.Select(x => new ExpenseGetAllDto
             {
                 Id = x.Id,
                 Concepto = x.Concepto,
-                Monto = x.Monto,
-                CategoriaId = x.CategoriaId,
-                CreatedAt = x.CreatedAt,
-                UsuarioId = x.UsuarioId
+                Monto = x.Monto.ToString("0.00"),
+                CategoriaId = x.Categoria != null ? x.Categoria.Id : 0,
+                CategoriaNombre = x.Categoria != null ? x.Categoria.Nombre : "Sin categoría",
+                CreatedAt = x.CreatedAt.ToString("dd-MM-yyyy")
             }).ToList();
             return expensesList;
         }
 
-        public async Task<decimal> GetTotalsForUser(Guid userId, string attribute, int? categoryId, DateTime? month)
+        public async Task<string> GetTotalsForUser(Guid userId, string attribute, int? categoryId, DateTime? month)
         {
-            decimal expenses = await _expenseRepository.GetTotalsForUser(userId, attribute, categoryId, month);
+            string total = await _expenseRepository.GetTotalsForUser(userId, attribute, categoryId, month);
 
-            return expenses;
+            return total;
         }
 
         public async Task<string> GetTotalsByCategory(Guid userId, DateTime startDate, DateTime endDate)

@@ -1,107 +1,106 @@
-import React, { useState } from "react";
-import "./Agregar.css";
+import { useState } from "react";
+import { Form, Button, Row, Col } from 'react-bootstrap';
 
-const Agregar = ({ agregarGasto }) => {
-    const [motivo, setMotivo] = useState('');
-    const [monto, setMonto] = useState('');
-    const [fecha, setFecha] = useState('');
-    const [nuevoMotivo, setNuevoMotivo] = useState('');
-    const [motivosDisponibles, setMotivosDisponibles] = useState(["carro", "casa", "comida", "mascota", "otros"]);
+const Agregar = ({ onAgregarGasto, listaDeCategorias }) => {
+  const [concepto, setConcepto] = useState('');
+  const [monto, setMonto] = useState('');
+  const [categoriaId, setCategoriaId] = useState('');
 
-    const handleMotivoChange = (e) => {
-        setMotivo(e.target.value);
-    };
+  const handleConceptoChange = (e) => {
+    setConcepto(e.target.value);
+  };
 
-    const handleMontoChange = (e) => {
-        setMonto(e.target.value);
-    };
+  const handleMontoChange = (e) => {
+    setMonto(e.target.value);
+  };
 
-    const handleFechaChange = (e) => {
-        setFecha(e.target.value);
-    };
+  const handleCategoriaIdChange = (e) => {
+    setCategoriaId(e.target.value);
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  const validateMonto = () => {
+    const trimmedMonto = monto.trim().replace(/,/g, ".");
 
-        if (!motivo || monto <= 0 || !fecha) {
-            alert("Por favor, complete todos los campos correctamente.");
-            return;
-        }
+    if (/^\d*\.?\d*$/.test(trimmedMonto)) {
+      return parseFloat(trimmedMonto);
+    }
 
-        const nuevoGasto = { motivo, monto: Number(monto), fecha };
-        agregarGasto(nuevoGasto);
+    alert('Por favor, ingrese un número válido.');
+    setMonto('');
+    return false;
+  };
 
-        setMotivo('');
-        setMonto('');
-        setFecha('');
-    };
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    const agregarNuevoMotivo = () => {
-        if (nuevoMotivo && !motivosDisponibles.includes(nuevoMotivo.toLowerCase())) {
-            setMotivosDisponibles([...motivosDisponibles, nuevoMotivo.toLowerCase()]);
-            setMotivo(nuevoMotivo.toLowerCase());
-            setNuevoMotivo('');
-        } else {
-            alert("El motivo ya existe o está vacío.");
-        }
-    };
+    let montoFloat = validateMonto();
+    if (!montoFloat) {
+      return;
+    }
 
-    return (
-        <div>
-            <h3>Agregar Gastos</h3>
-            <form onSubmit={handleSubmit}>
-                <div className="row">
-                    <div className="form-group col-md-4">
-                        <select
-                            className="form-control"
-                            value={motivo}
-                            onChange={handleMotivoChange}
-                        >
-                            <option value="">Seleccione un motivo</option>
-                            {motivosDisponibles.map((motivoItem, index) => (
-                                <option key={index} value={motivoItem}>{motivoItem}</option>
-                            ))}
-                        </select>
-                        <input
-                            type="text"
-                            className="form-control mt-2"
-                            placeholder="Nuevo motivo"
-                            value={nuevoMotivo}
-                            onChange={(e) => setNuevoMotivo(e.target.value)}
-                        />
-                        <button
-                            type="button"
-                            className="btn btn-secondary mt-2"
-                            onClick={agregarNuevoMotivo}
-                        >
-                            Agregar Motivo
-                        </button>
-                    </div>
-                    <div className="form-group col-md-4">
-                        <input
-                            type="number"
-                            className="form-control"
-                            placeholder="Monto"
-                            value={monto}
-                            onChange={handleMontoChange}
-                            min="0"
-                        />
-                    </div>
-                    <div className="form-group col-md-4">
-                        <input
-                            type="date"
-                            className="form-control"
-                            value={fecha}
-                            onChange={handleFechaChange}
-                        />
-                    </div>
-                </div>
-                <div className="boton-centrado">
-                    <button type="submit" className="btn btn-primary">Guardar Gasto</button>
-                </div>
-            </form>
+    let categoriaIdInteger = parseInt(categoriaId, 10);
+    onAgregarGasto(concepto, montoFloat, categoriaIdInteger);
+
+    setConcepto('');
+    setMonto('');
+    setCategoriaId('');
+  };
+
+  return (
+    <div>
+      <h3>Agregar Gastos</h3>
+      <Form onSubmit={handleSubmit}>
+        <Row>
+          <Col md={4}>
+            <Form.Group>
+              <Form.Label>Concepto</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Ingrese el concepto"
+                value={concepto}
+                onChange={(e) => handleConceptoChange(e)}
+                required
+              />
+            </Form.Group>
+          </Col>
+          <Col md={4}>
+            <Form.Group>
+              <Form.Label>Monto</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Ingrese el monto"
+                value={monto}
+                onChange={(e) => handleMontoChange(e)}
+                required
+              />
+            </Form.Group>
+          </Col>
+          <Col md={4}>
+            <Form.Group>
+              <Form.Label>Categoría</Form.Label>
+              <Form.Control
+                as="select"
+                value={categoriaId}
+                onChange={(e) => handleCategoriaIdChange(e)}
+              >
+                <option value="">Seleccionar categoría</option>
+                {listaDeCategorias.map((categoria) => (
+                  <option key={categoria.id} value={categoria.id}>
+                    {categoria.nombre}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+          </Col>
+        </Row>
+        <div className="boton-centrado mb-4 mt-2">
+          <Button type="submit" variant="primary">
+            Guardar Gasto
+          </Button>
         </div>
-    );
+      </Form>
+    </div>
+  );
 };
 
 export default Agregar;

@@ -4,7 +4,7 @@ using Xpense.application.Categories.Models;
 using Xpense.application.Categories.Interfaces;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authorization;
-using Xpense.domain.Expenses;
+using Xpense.domain.Categories;
 
 namespace Xpense.API.Controllers
 {

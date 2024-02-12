@@ -10,7 +10,7 @@ namespace Xpense.infrastructure.Repositories.Expenses.Interfaces
         public Task<Expense> Get(int id, Guid userId);
         public Task<ICollection<Expense>> GetAll();
         public Task<ICollection<Expense>> GetAllForUser(Guid userId, string orderBy, int? categoryId, decimal? minAmount, DateTime? startDate, DateTime? endDate);
-        public Task<decimal> GetTotalsForUser(Guid userId, string attribute, int? categoryId, DateTime? month);
+        public Task<string> GetTotalsForUser(Guid userId, string attribute, int? categoryId, DateTime? month);
         public Task<Dictionary<string, decimal>> GetTotalsByCategory(Guid userId, DateTime startDate, DateTime endDate);
     }
 }

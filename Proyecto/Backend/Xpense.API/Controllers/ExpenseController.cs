@@ -144,7 +144,7 @@ namespace Xpense.API.Controllers
             {
                 var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid"))?.Value;
 
-                decimal expenses = await _expenseService.GetTotalsForUser(Guid.Parse(userId!), attribute, categoryId, month);
+                string expenses = await _expenseService.GetTotalsForUser(Guid.Parse(userId!), attribute, categoryId, month);
 
                 return new OkObjectResult(expenses);
             }

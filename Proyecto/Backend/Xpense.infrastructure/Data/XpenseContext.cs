@@ -28,6 +28,12 @@ namespace Xpense.infrastructure.Data
                 .Property(e => e.Monto)
                 .HasColumnType("decimal(18, 2)"); // 18 es la precisión total y 2 es la escala (número de decimales)
 
+            modelBuilder.Entity<Category>()
+                .HasMany(c => c.Expenses)
+                .WithOne(e => e.Categoria)
+                .HasForeignKey(e => e.CategoriaId)
+                .OnDelete(DeleteBehavior.SetNull);
+
             //modelBuilder.Entity<Expense>()
             //    .HasOne(e => e.UsuarioId)
             //    .WithMany()
