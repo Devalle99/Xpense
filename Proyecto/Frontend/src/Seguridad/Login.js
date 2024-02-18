@@ -41,7 +41,7 @@ function Login() {
           <Link to="/registro" className='btn btn-default border w-100 bg-light rounded-0 text-decoration-none'>Crear cuenta</Link>
         </form>
 
-        {isLoggedIn && <Navigate to="/inicio" />}
+        {isLoggedIn && <Navigate to="/gastos" />}
       </div>
     </div>
   );

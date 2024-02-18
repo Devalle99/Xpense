@@ -123,7 +123,15 @@ namespace Xpense.infrastructure.Repositories.Expenses
                 case "categoria":
                     if (categoryId.HasValue)
                     {
-                        query = query.Where(e => e.Categoria != null && e.Categoria.Id == categoryId.Value);
+                        if (categoryId == 0)
+                        {
+                            query = query.Where(e => e.Categoria == null);
+                        }
+                        else
+                        {
+                            query = query.Where(e => e.Categoria != null && e.Categoria.Id == categoryId.Value);
+
+                        }
                     }
                     break;
                 case "mes":

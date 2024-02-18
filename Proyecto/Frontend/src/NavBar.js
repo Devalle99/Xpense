@@ -1,20 +1,22 @@
-import React from 'react';
-import './NavBar.css'; // Importa el archivo CSS
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 
 function NavBar() {
-  const scrollToSection = (sectionId) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <nav style={{ backgroundColor: '#f0f0f0', padding: '10px 0', textAlign: 'center' }}>
-      <button onClick={() => scrollToSection('agregar')}>Gestor de gastos</button>
-      <button onClick={() => scrollToSection('graficoResumenFinanciero')}>Ver Gráfico</button> {/* Actualizado para usar el ID del gráfico */}
-      <button onClick={() => scrollToSection('historial')}>Historial de gastos</button> {/* Nuevo botón para el Historial */}
-    </nav>
+    <Navbar expand="lg" className="bg-body-tertiary" data-bs-theme="dark">
+      <Container>
+        <Navbar.Brand href="#home">Xpense</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="/gastos">Gastos</Nav.Link>
+            <Nav.Link href="/categorias">Categorías</Nav.Link>
+            <Nav.Link href="/totales">Total de gastos</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
 
