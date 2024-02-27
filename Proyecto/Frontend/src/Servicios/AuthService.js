@@ -1,19 +1,19 @@
-class AuthService{
+class AuthService {
     baseUrl = "https://localhost:7279/";
-    UserController = "user";
-    
-    async GetToken(username, password){
+    UserController = "User";
+
+    async GetToken(username, password) {
         let options = {
             method: 'POST',
             body: JSON.stringify({
                 username: username,
                 password: password
             }),
-            headers:{
-              "Content-Type": "application/json",
+            headers: {
+                "Content-Type": "application/json",
             },
             credentials: 'include',
-          };
+        };
 
         let response = null;
         try {
@@ -26,21 +26,46 @@ class AuthService{
         }
     }
 
-    async GetAllUsers(){
+    async GetAllUsers() {
         let options = {
             method: 'GET',
-            headers:{
-              "Content-Type": "application/json",
+            headers: {
+                "Content-Type": "application/json",
             },
             credentials: 'include',
-          };
+        };
 
         let response = null;
         try {
             const response = await fetch(`${this.baseUrl}api/${this.UserController}/GetAllUsers`, options)
-            if(response.status !== 200){
+            if (response.status !== 200) {
                 localStorage.removeItem("loggedIn");
             }
+            const users = await response.json();
+            return users;
+        } catch (error) {
+            console.log(error);
+            return response;
+        }
+    }
+
+
+    async Register(username, password) {
+        let options = {
+            method: 'POST',
+            body: JSON.stringify({
+                email: username,
+                password: password
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: 'include',
+        };
+
+        let response = null;
+        try {
+            const response = await fetch(`${this.baseUrl}api/${this.UserController}`, options)
             const users = await response.json();
             return users;
         } catch (error) {
@@ -61,4 +86,4 @@ const useAuth = () => {
     }
 };
 
-export {AuthService, useAuth}
+export { AuthService, useAuth }

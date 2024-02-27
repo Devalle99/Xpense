@@ -13,6 +13,7 @@ function NavBar() {
             <Nav.Link href="/gastos">Gastos</Nav.Link>
             <Nav.Link href="/categorias">Categorías</Nav.Link>
             <Nav.Link href="/totales">Total de gastos</Nav.Link>
+            <Nav.Link href="/logout">Cerrar sesión</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -63,7 +63,7 @@ namespace Xpense.infrastructure.Repositories.Security
                 is_valid_user = true;
             }
 
-            return (is_valid_user == true) ? identityUsr : null;
+            return is_valid_user ? identityUsr : null;
         }
 
         public async Task<IdentityUser<Guid>> Update(IdentityUser<Guid> user)

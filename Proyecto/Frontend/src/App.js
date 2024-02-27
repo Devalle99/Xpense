@@ -7,6 +7,7 @@ import {
   Routes
 } from 'react-router-dom';
 import Login from './Seguridad/Login';
+import Logout from './Seguridad/Logout';
 import Signup from './Seguridad/Signup';
 import Gastos from './Gastos/Gastos';
 import Totales from './Totales/Totales';
@@ -22,6 +23,7 @@ function App() {
           <Route path='/gastos' element={<Gastos />}></Route>
           <Route path='/totales' element={<Totales />}></Route>
           <Route path='/categorias' element={<Categorias />}></Route>
+          <Route path='/logout' element={<Logout />}></Route>
         </Route>
         <Route element={<PublicRoutes />}>
           <Route path='/' element={<Login />} />

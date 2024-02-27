@@ -195,15 +195,16 @@ namespace Xpense.API.Controllers.Security
                     {
                         new Claim(ClaimTypes.Sid, loggedUser.Id.ToString()),
                         new Claim(ClaimTypes.Name, loggedUser.Email),
-                        new Claim(ClaimTypes.Email, loggedUser.Email),
+                        new Claim(ClaimTypes.Email, loggedUser.Email)
                     };
 
-                    //loggedUser.Roles = roles;
                     var roles = await _roleService.GetRolesByUserId(loggedUser.Id);
                     foreach (var role in roles)
                     {
                         claims.Add(new Claim(ClaimTypes.Role, role.NormalizedName));
                     }
+
+                    var normalizedRoleNames = roles.Select(role => role.NormalizedName).ToList();
 
                     var token = new JwtSecurityToken(
                         issuer: issuer,
@@ -228,7 +229,8 @@ namespace Xpense.API.Controllers.Security
                     LoggedUserDto userLogged = new LoggedUserDto
                     {
                         //AccessToken = stringToken,
-                        User = loggedUser
+                        User = loggedUser,
+                        Roles = normalizedRoleNames,
                     };
 
                     return Ok(new

@@ -10,6 +10,7 @@ namespace Xpense.application.Security.Dto
     {
         public UserDto User { get; set; }
 
-        public string AccessToken { get; set; }
+        public string? AccessToken { get; set; }
+        public List<string>? Roles { get; set; }
     }
 }
