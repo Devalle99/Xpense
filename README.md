@@ -1,5 +1,3 @@
-Gestor de gastos para la materia de desarrollo web de 3er semestre.
-
 Esta API está hecha con DDD en mente. Está separada en 3 capas:
 
 1. Dominio: Permite centrarse en la modelación del dominio sin distracciones de detalles de implementación o preocupaciones de infraestructura. Aísla la lógica de dominio, facilitando la comprensión y mantenimiento del código relacionado con las reglas de negocio. Permite cambios en la lógica de dominio sin afectar otras capas, ya que las reglas de negocio están encapsuladas.
