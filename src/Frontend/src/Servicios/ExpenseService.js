@@ -89,7 +89,7 @@ class ExpenseService {
         let response = null;
         try {
             // Construir la URL con los parámetros de consulta
-            let url = `${this.baseUrl}${this.baseController}/GetAllForUser`;
+            let url = `${this.baseUrl}${this.baseController}/GetAll`;
 
             if (options) {
                 const { orderBy, categoryId, minAmount, startDate, endDate } = options;
@@ -130,7 +130,7 @@ class ExpenseService {
         let response = null;
         try {
             // Construir la URL con los parámetros de consulta
-            let url = `${this.baseUrl}${this.baseController}/GetTotalsForUser?attribute=${attribute}`;
+            let url = `${this.baseUrl}${this.baseController}/GetTotals?attribute=${attribute}`;
 
             if (categoryId) {
                 url += `&categoryId=${categoryId}`;

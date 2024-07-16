@@ -50,9 +50,9 @@ namespace Xpense.application.Expenses
             return expense;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id, Guid userId)
         {
-            var result = await _expenseRepository.Delete(id);
+            var result = await _expenseRepository.Delete(id, userId);
             return result;
         }
 
@@ -73,25 +73,9 @@ namespace Xpense.application.Expenses
             return mappedExpense;
         }
 
-
-        public async Task<ICollection<ExpenseReadDto>> GetAll()
+        public async Task<ICollection<ExpenseGetAllDto>> GetAll(Guid userId, string orderBy, int? categoryId, decimal? minAmount, DateTime? startDate, DateTime? endDate)
         {
-            var expenses = await _expenseRepository.GetAll();
-            var expensesList = expenses.Select(x => new ExpenseReadDto
-            {
-                Id = x.Id,
-                Concepto = x.Concepto,
-                Monto = x.Monto,
-                CategoriaId = x.CategoriaId,
-                CreatedAt = x.CreatedAt,
-                UsuarioId = x.UsuarioId
-            }).ToList();
-            return expensesList;
-        }
-
-        public async Task<ICollection<ExpenseGetAllDto>> GetAllForUser(Guid userId, string orderBy, int? categoryId, decimal? minAmount, DateTime? startDate, DateTime? endDate)
-        {
-            var expenses = await _expenseRepository.GetAllForUser(userId, orderBy, categoryId, minAmount, startDate, endDate);
+            var expenses = await _expenseRepository.GetAll(userId, orderBy, categoryId, minAmount, startDate, endDate);
 
             var expensesList = expenses.Select(x => new ExpenseGetAllDto
             {
@@ -105,9 +89,9 @@ namespace Xpense.application.Expenses
             return expensesList;
         }
 
-        public async Task<string> GetTotalsForUser(Guid userId, string attribute, int? categoryId, DateTime? month)
+        public async Task<string> GetTotals(Guid userId, string attribute, int? categoryId, DateTime? month)
         {
-            string total = await _expenseRepository.GetTotalsForUser(userId, attribute, categoryId, month);
+            string total = await _expenseRepository.GetTotals(userId, attribute, categoryId, month);
 
             return total;
         }

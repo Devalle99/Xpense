@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Xpense.domain.Expenses;
 
 namespace Xpense.API.Controllers
 {
@@ -37,9 +38,10 @@ namespace Xpense.API.Controllers
                 var createdExpense = await _expenseService.Create(expense);
                 return StatusCode((int)HttpStatusCode.Created, createdExpense);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                _logger.LogError("ExpenseController error: Create " + e.Message);
+                return BadRequest("Bad Request, contact administrator");
             }
         }
 
@@ -54,9 +56,10 @@ namespace Xpense.API.Controllers
                 var updatedExpense = await _expenseService.Update(expense);
                 return new OkObjectResult(updatedExpense);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                _logger.LogError("ExpenseController error: Update " + e.Message);
+                return BadRequest("Bad Request, contact administrator");
             }
         }
 
@@ -67,13 +70,15 @@ namespace Xpense.API.Controllers
         {
             try
             {
-                var result = await _expenseService.Delete(id);
-                return new OkObjectResult(new { deleted = result });
+                var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid"))?.Value;
+
+                var isDeleted = await _expenseService.Delete(id, Guid.Parse(userId!));
+                return new OkObjectResult(new { deleted = isDeleted });
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                _logger.LogError(ex.Message);
-                return BadRequest($"Could not delete expense with {id}");
+                _logger.LogError("ExpenseController error: Delete " + e.Message);
+                return BadRequest("Bad Request, contact administrator");
             }
 
         }
@@ -89,30 +94,14 @@ namespace Xpense.API.Controllers
 
                 return new OkObjectResult(expense);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                // Manejar otras excepciones
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [Authorize(Roles = "ADMINISTRATOR")]
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
-        {
-            try
-            {
-                var expenses = await _expenseService.GetAll();
-
-                return new OkObjectResult(expenses);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
+                _logger.LogError("ExpenseController error: Get by Id " + e.Message);
+                return BadRequest("Bad Request, contact administrator");
             }
         }
         
-        [HttpGet("GetAllForUser")]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllForUser (
             [FromQuery] string orderBy = "fechaDesc",
             [FromQuery] int? categoryId = null,
@@ -124,18 +113,19 @@ namespace Xpense.API.Controllers
             {
                 var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid"))?.Value;
 
-                var expenses = await _expenseService.GetAllForUser(Guid.Parse(userId!), orderBy, categoryId, minAmount, startDate, endDate);
+                var expenses = await _expenseService.GetAll(Guid.Parse(userId!), orderBy, categoryId, minAmount, startDate, endDate);
 
                 return new OkObjectResult(expenses);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                _logger.LogError("ExpenseController error: Get All " + e.Message);
+                return BadRequest("Bad Request, contact administrator");
             }
         }        
         
-        [HttpGet("GetTotalsForUser")]
-        public async Task<IActionResult> GetTotalsForUser(
+        [HttpGet("GetTotals")]
+        public async Task<IActionResult> GetTotals(
             [FromQuery] string attribute = "general",
             [FromQuery] int? categoryId = null,
             [FromQuery] DateTime? month = null)
@@ -144,13 +134,14 @@ namespace Xpense.API.Controllers
             {
                 var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid"))?.Value;
 
-                string expenses = await _expenseService.GetTotalsForUser(Guid.Parse(userId!), attribute, categoryId, month);
+                string expenses = await _expenseService.GetTotals(Guid.Parse(userId!), attribute, categoryId, month);
 
                 return new OkObjectResult(expenses);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                _logger.LogError("ExpenseController error: Get Totals " + e.Message);
+                return BadRequest("Bad Request, contact administrator");
             }
         }
 
@@ -162,14 +153,12 @@ namespace Xpense.API.Controllers
                 var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid"))?.Value;
 
                 var jsonResult = await _expenseService.GetTotalsByCategory(Guid.Parse(userId!), startDate, endDate);
-
-                // Devolver la cadena JSON como resultado
                 return Ok(jsonResult);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                // Manejar cualquier excepción y devolver una respuesta de error
-                return BadRequest(ex.Message);
+                _logger.LogError("ExpenseController error: GetTotalsByCategory " + e.Message);
+                return BadRequest("Bad Request, contact administrator");
             }
         }
     }

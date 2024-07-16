@@ -30,6 +30,24 @@ namespace Xpense.application.Categories
             return mappedEntity;
         }
 
+        public async Task<CategoryReadDto> Update(CategoryReadDto category)
+        {
+            var entityToUpdate = await _categoriesRepository.Get((Guid)category.UsuarioId, category.Id);
+
+
+            entityToUpdate.Id = category.Id;
+            entityToUpdate.Nombre = category.Nombre;
+
+            entityToUpdate = await _categoriesRepository.Update(entityToUpdate);
+            var mappedEntity = new CategoryReadDto
+            {
+                Id = entityToUpdate.Id,
+                Nombre = entityToUpdate.Nombre,
+                UsuarioId = entityToUpdate.UsuarioId
+            };
+            return mappedEntity;
+        }
+
         public async Task<bool> Delete(int id)
         {
             var result = await _categoriesRepository.Delete(id);
@@ -57,24 +75,6 @@ namespace Xpense.application.Categories
                 Nombre = x.Nombre,
                 UsuarioId = x.UsuarioId
             }).ToList();
-        }
-
-        public async Task<CategoryReadDto> Update(CategoryReadDto category)
-        {
-            var entityToUpdate = await _categoriesRepository.Get((Guid)category.UsuarioId, category.Id);
-
-
-            entityToUpdate.Id = category.Id;
-            entityToUpdate.Nombre = category.Nombre;
-
-            entityToUpdate = await _categoriesRepository.Update(entityToUpdate);
-            var mappedEntity = new CategoryReadDto
-            {
-                Id = entityToUpdate.Id,
-                Nombre = entityToUpdate.Nombre,
-                UsuarioId = entityToUpdate.UsuarioId
-            };
-            return mappedEntity;
         }
     }
 }

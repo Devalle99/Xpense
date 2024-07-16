@@ -17,7 +17,7 @@ class AuthService {
 
         let response = null;
         try {
-            const response = await fetch(`${this.baseUrl}api/${this.UserController}/GetToken`, options)
+            const response = await fetch(`${this.baseUrl}${this.UserController}/GetToken`, options)
             const users = await response.json();
             return users;
         } catch (error) {
@@ -37,7 +37,7 @@ class AuthService {
 
         let response = null;
         try {
-            const response = await fetch(`${this.baseUrl}api/${this.UserController}/GetAllUsers`, options)
+            const response = await fetch(`${this.baseUrl}${this.UserController}/GetAllUsers`, options)
             if (response.status !== 200) {
                 localStorage.removeItem("loggedIn");
             }
@@ -65,7 +65,7 @@ class AuthService {
 
         let response = null;
         try {
-            const response = await fetch(`${this.baseUrl}api/${this.UserController}`, options)
+            const response = await fetch(`${this.baseUrl}${this.UserController}`, options)
             const users = await response.json();
             return users;
         } catch (error) {

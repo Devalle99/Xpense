@@ -27,9 +27,9 @@ namespace Xpense.infrastructure.Repositories.Expenses
             return expense;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id, Guid userId)
         {
-            var expenseEntity = await _context.Expenses.FirstAsync(e => e.Id == id);
+            var expenseEntity = await _context.Expenses.FirstAsync(e => e.Id == id && e.UsuarioId == userId);
             _context.Expenses.Remove(expenseEntity);
             var isDeleted = await _context.SaveChangesAsync() > 0;
             return isDeleted;
@@ -42,13 +42,7 @@ namespace Xpense.infrastructure.Repositories.Expenses
             return expenseEntity;
         }
 
-        public async Task<ICollection<Expense>> GetAll()
-        {
-            var expenseEntities = await _context.Expenses.OrderByDescending(x => x.CreatedAt).ToListAsync();
-            return expenseEntities;
-        }
-
-        public async Task<ICollection<Expense>> GetAllForUser(Guid userId, string orderBy, int? categoryId, decimal? minAmount, DateTime? startDate, DateTime? endDate)
+        public async Task<ICollection<Expense>> GetAll(Guid userId, string orderBy, int? categoryId, decimal? minAmount, DateTime? startDate, DateTime? endDate)
         {
             IQueryable<Expense> query = _context.Expenses
                 .Include(e => e.Categoria)
@@ -109,7 +103,7 @@ namespace Xpense.infrastructure.Repositories.Expenses
             return await query.ToListAsync();
         }
 
-        public async Task<string> GetTotalsForUser(Guid userId, string attribute, int? categoryId, DateTime? month)
+        public async Task<string> GetTotals(Guid userId, string attribute, int? categoryId, DateTime? month)
         {
             IQueryable<Expense> query = _context.Expenses
                 .Where(e => e.UsuarioId == userId);

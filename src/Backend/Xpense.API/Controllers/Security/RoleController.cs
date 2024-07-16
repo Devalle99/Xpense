@@ -7,7 +7,7 @@ namespace Xpense.API.Controllers.Security
 {
     [ApiController]
     [Authorize(Roles = "ADMINISTRATOR")]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class RoleController : ControllerBase
     {
         private readonly IRoleService _roleService;

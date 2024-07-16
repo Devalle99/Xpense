@@ -2,9 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xpense.application.Categories.Models;
 using Xpense.application.Categories.Interfaces;
-using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authorization;
-using Xpense.domain.Categories;
 
 namespace Xpense.API.Controllers
 {
@@ -37,7 +35,7 @@ namespace Xpense.API.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError("CategoryController error: CreateAsync " + e.Message);
+                _logger.LogError("CategoryController error: Create " + e.Message);
                 return BadRequest("Bad Request, contact administrator");
             }
         }
